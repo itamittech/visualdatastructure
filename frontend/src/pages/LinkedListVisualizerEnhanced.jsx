@@ -470,9 +470,38 @@ public class LinkedListExample {
         </button>
       </div>
 
-      {/* Theory Section */}
-      <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg shadow-md p-8 mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">What is a Linked List?</h2>
+      {/* Learning Path Progress Indicator */}
+      <div className="mb-8 bg-gradient-to-r from-blue-100 via-green-100 to-purple-100 rounded-lg shadow-md p-6 border-2 border-blue-300">
+        <div className="flex items-center justify-center">
+          <div className="text-2xl mr-3">🎯</div>
+          <h3 className="font-bold text-lg text-gray-800 mr-6">Learning Path:</h3>
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow font-bold">
+              <span className="mr-2">1</span> Theory
+            </div>
+            <span className="text-gray-400 text-2xl">→</span>
+            <div className="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg shadow font-bold">
+              <span className="mr-2">2</span> Practice
+            </div>
+            <span className="text-gray-400 text-2xl">→</span>
+            <div className="flex items-center bg-purple-500 text-white px-4 py-2 rounded-lg shadow font-bold">
+              <span className="mr-2">3</span> Code
+            </div>
+            <span className="text-gray-400 text-2xl">→</span>
+            <div className="flex items-center bg-slate-500 text-white px-4 py-2 rounded-lg shadow font-bold">
+              <span className="mr-2">4</span> Advanced
+            </div>
+          </div>
+        </div>
+        <p className="text-center text-sm text-gray-600 mt-3">Follow this path from basic concepts to production-grade knowledge</p>
+      </div>
+
+      {/* STEP 1: Theory Section */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-md p-8 mb-8 border-l-8 border-blue-500">
+        <div className="flex items-center mb-4">
+          <div className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4 shadow-lg">1</div>
+          <h2 className="text-3xl font-bold text-gray-800">Theory: What is a Linked List?</h2>
+        </div>
 
         <div className="space-y-4 text-gray-700">
           <p className="text-lg leading-relaxed">
@@ -590,12 +619,245 @@ public class LinkedListExample {
         </div>
       </div>
 
-      {/* Advanced Technical Deep Dive */}
-      <div className="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg shadow-md p-8 mb-8 border-l-4 border-emerald-600">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4 flex items-center">
-          <span className="text-3xl mr-3">🔬</span>
-          Advanced: Pointer Mechanics, Cache & Production Reality
+      {showLearningMode && (
+        <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
+          <div className="flex items-start">
+            <div className="text-3xl mr-3">🎓</div>
+            <div>
+              <div className="font-bold text-green-800 text-lg mb-1">
+                Learning Mode Active!
+              </div>
+              <div className="text-green-700">
+                Perform Search or Insert at Beginning to see step-by-step visualization.
+                Watch how we traverse nodes one by one and why certain operations are faster than others!
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Step-by-step Visualizer */}
+      {operationSteps && (
+        <OperationVisualizer
+          operation={operationSteps.operation}
+          steps={operationSteps.steps}
+          onComplete={() => setOperationSteps(null)}
+        />
+      )}
+
+      {/* STEP 2: Interactive Practice Section */}
+      <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg shadow-md p-8 mb-8 border-l-8 border-green-500">
+        <div className="flex items-center mb-4">
+          <div className="bg-green-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4 shadow-lg">2</div>
+          <h2 className="text-3xl font-bold text-gray-800">Practice: Interactive Linked List Visualization</h2>
+        </div>
+
+        {/* Linked List Display */}
+        <div className="mb-6 overflow-x-auto">
+          <div className="flex items-center space-x-4 p-4 min-w-max bg-gray-50 rounded-lg">
+            {list.length === 0 ? (
+              <div className="text-gray-500 text-lg">List is empty - head → NULL</div>
+            ) : (
+              <>
+                {list.map((node, index) => (
+                  <React.Fragment key={node.id}>
+                    <div className={`node transition-all duration-300 ${
+                      highlightId === node.id ? 'scale-110' : ''
+                    }`}>
+                      <div className="text-xs text-gray-500 mb-1 text-center font-semibold">
+                        {index === 0 ? 'HEAD →' : `Node ${index}`}
+                      </div>
+                      <div className="flex items-center">
+                        <div
+                          className={`w-24 h-24 border-2 rounded-lg flex items-center justify-center font-bold text-xl ${
+                            highlightId === node.id
+                              ? 'bg-yellow-300 border-yellow-500 shadow-xl'
+                              : 'bg-green-100 border-green-500'
+                          }`}
+                        >
+                          <div className="text-center">
+                            <div>{node.value}</div>
+                            <div className="text-xs text-gray-500 mt-1">data</div>
+                          </div>
+                        </div>
+                        <div className="w-8 h-8 border-2 border-green-500 rounded bg-white ml-1 flex items-center justify-center text-xs">
+                          next
+                        </div>
+                      </div>
+                    </div>
+                    {index < list.length - 1 && (
+                      <div className="flex items-center">
+                        <svg width="60" height="30">
+                          <defs>
+                            <marker
+                              id="arrowhead"
+                              markerWidth="10"
+                              markerHeight="10"
+                              refX="9"
+                              refY="3"
+                              orient="auto"
+                            >
+                              <polygon points="0 0, 10 3, 0 6" fill="#4B5563" />
+                            </marker>
+                          </defs>
+                          <line x1="0" y1="15" x2="55" y2="15" className="arrow" />
+                        </svg>
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))}
+                <div className="flex items-center">
+                  <svg width="60" height="30">
+                    <line x1="0" y1="15" x2="55" y2="15" className="arrow" />
+                  </svg>
+                </div>
+                <div className="w-20 h-20 border-2 border-gray-400 border-dashed rounded-lg flex items-center justify-center text-gray-400 font-bold">
+                  NULL
+                </div>
+              </>
+            )}
+          </div>
+          <div className="text-sm text-gray-600 mt-3 bg-green-50 p-3 rounded">
+            <strong>Memory Layout:</strong> Unlike arrays, nodes are NOT in contiguous memory.
+            Each node points to the next via memory address (pointer). This is why we can't jump to middle - must follow the chain!
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Value
+            </label>
+            <input
+              type="number"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+              placeholder="Enter value"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Position (0 to {list.length})
+            </label>
+            <input
+              type="number"
+              value={inputPosition}
+              onChange={(e) => setInputPosition(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+              placeholder="Enter position"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2 mb-4">
+          <button
+            onClick={handleInsertBeginning}
+            className="bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
+            title="Insert at beginning - O(1)"
+          >
+            Insert Beginning → O(1) ⚡
+          </button>
+          <button
+            onClick={handleInsertEnd}
+            className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
+            title="Insert at end - O(n)"
+          >
+            Insert End → O(n)
+          </button>
+          <button
+            onClick={handleInsertPosition}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
+            title="Insert at position - O(n)"
+          >
+            Insert Position → O(n)
+          </button>
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
+            title="Delete by value - O(n)"
+          >
+            Delete → O(n)
+          </button>
+          <button
+            onClick={handleSearch}
+            className="bg-purple-500 hover:bg-purple-600 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
+            title="Search for value - O(n)"
+          >
+            Search → O(n)
+          </button>
+        </div>
+
+        {message && (
+          <div className="bg-green-50 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded">
+            <strong>Result:</strong> {message}
+          </div>
+        )}
+      </div>
+
+      <ComplexityInfo data={complexityData} />
+
+      {/* Java List Implementations - LinkedList is also a List! */}
+      <div className="mt-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Java List Implementations - Complete Guide
         </h2>
+        <p className="text-gray-600 mb-6 text-lg">
+          LinkedList is one of Java's List implementations! Below you'll find ALL List types including
+          ArrayList vs LinkedList comparison, Deque operations, Vector, CopyOnWriteArrayList, and Java 21
+          Sequenced Collections features.
+        </p>
+        <JavaListImplementations />
+      </div>
+
+      {/* STEP 3: Code Implementation Section */}
+      <div className="mt-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg shadow-md p-8 mb-8 border-l-8 border-purple-500">
+        <div className="flex items-center mb-6">
+          <div className="bg-purple-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4 shadow-lg">3</div>
+          <h2 className="text-3xl font-bold text-gray-800">Code: Implementation Details</h2>
+        </div>
+
+      <div className="grid lg:grid-cols-2 gap-6">
+        <CodeDisplay
+          title="Singly Linked List from Scratch (detailed explanations)"
+          code={scratchCode}
+          language="java"
+        />
+        <CodeDisplay
+          title="Using Java's LinkedList (doubly-linked)"
+          code={libraryCode}
+          language="java"
+        />
+      </div>
+
+      {/* STEP 4: Advanced Section */}
+      <div className="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg shadow-md p-8 mb-8 border-l-8 border-slate-500">
+        <div className="flex items-center mb-4">
+          <div className="bg-slate-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4 shadow-lg">4</div>
+          <h2 className="text-3xl font-bold text-gray-800">Advanced: Architect-Level Deep Dive</h2>
+        </div>
+        <div className="mb-4 text-sm text-gray-600">
+          ⚠️ <strong>Complete Steps 1-3 below before diving into this architect-level content</strong>
+        </div>
+
+        {/* Prominent Notice */}
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 p-6 mb-6 rounded">
+          <div className="flex items-start">
+            <div className="text-3xl mr-3">⚠️</div>
+            <div>
+              <h4 className="font-bold text-yellow-900 text-lg mb-2">Advanced Content - Complete Basic Steps First!</h4>
+              <p className="text-yellow-800 mb-3">
+                This section contains production-grade, architect-level content. For the best learning experience:
+              </p>
+              <ol className="list-decimal list-inside space-y-1 text-yellow-900 text-sm">
+                <li>Scroll up to <strong>Step 2: Interactive Practice</strong> and try the visualizer</li>
+                <li>Review <strong>Step 3: Code Implementation</strong> to understand the basics</li>
+                <li>Then return here for deep dives into memory, CPU cache, concurrency, and production patterns</li>
+              </ol>
+            </div>
+          </div>
+        </div>
 
         <div className="space-y-6">
           {/* Memory & Cache Performance */}
@@ -997,216 +1259,7 @@ boolean hasCycle(Node head) {
               </div>
             </div>
           </div>
-
         </div>
-      </div>
-
-      {showLearningMode && (
-        <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
-          <div className="flex items-start">
-            <div className="text-3xl mr-3">🎓</div>
-            <div>
-              <div className="font-bold text-green-800 text-lg mb-1">
-                Learning Mode Active!
-              </div>
-              <div className="text-green-700">
-                Perform Search or Insert at Beginning to see step-by-step visualization.
-                Watch how we traverse nodes one by one and why certain operations are faster than others!
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Step-by-step Visualizer */}
-      {operationSteps && (
-        <OperationVisualizer
-          operation={operationSteps.operation}
-          steps={operationSteps.steps}
-          onComplete={() => setOperationSteps(null)}
-        />
-      )}
-
-      {/* Main Linked List Visualization */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4">Interactive Linked List Visualization</h2>
-
-        {/* Linked List Display */}
-        <div className="mb-6 overflow-x-auto">
-          <div className="flex items-center space-x-4 p-4 min-w-max bg-gray-50 rounded-lg">
-            {list.length === 0 ? (
-              <div className="text-gray-500 text-lg">List is empty - head → NULL</div>
-            ) : (
-              <>
-                {list.map((node, index) => (
-                  <React.Fragment key={node.id}>
-                    <div className={`node transition-all duration-300 ${
-                      highlightId === node.id ? 'scale-110' : ''
-                    }`}>
-                      <div className="text-xs text-gray-500 mb-1 text-center font-semibold">
-                        {index === 0 ? 'HEAD →' : `Node ${index}`}
-                      </div>
-                      <div className="flex items-center">
-                        <div
-                          className={`w-24 h-24 border-2 rounded-lg flex items-center justify-center font-bold text-xl ${
-                            highlightId === node.id
-                              ? 'bg-yellow-300 border-yellow-500 shadow-xl'
-                              : 'bg-green-100 border-green-500'
-                          }`}
-                        >
-                          <div className="text-center">
-                            <div>{node.value}</div>
-                            <div className="text-xs text-gray-500 mt-1">data</div>
-                          </div>
-                        </div>
-                        <div className="w-8 h-8 border-2 border-green-500 rounded bg-white ml-1 flex items-center justify-center text-xs">
-                          next
-                        </div>
-                      </div>
-                    </div>
-                    {index < list.length - 1 && (
-                      <div className="flex items-center">
-                        <svg width="60" height="30">
-                          <defs>
-                            <marker
-                              id="arrowhead"
-                              markerWidth="10"
-                              markerHeight="10"
-                              refX="9"
-                              refY="3"
-                              orient="auto"
-                            >
-                              <polygon points="0 0, 10 3, 0 6" fill="#4B5563" />
-                            </marker>
-                          </defs>
-                          <line x1="0" y1="15" x2="55" y2="15" className="arrow" />
-                        </svg>
-                      </div>
-                    )}
-                  </React.Fragment>
-                ))}
-                <div className="flex items-center">
-                  <svg width="60" height="30">
-                    <line x1="0" y1="15" x2="55" y2="15" className="arrow" />
-                  </svg>
-                </div>
-                <div className="w-20 h-20 border-2 border-gray-400 border-dashed rounded-lg flex items-center justify-center text-gray-400 font-bold">
-                  NULL
-                </div>
-              </>
-            )}
-          </div>
-          <div className="text-sm text-gray-600 mt-3 bg-green-50 p-3 rounded">
-            <strong>Memory Layout:</strong> Unlike arrays, nodes are NOT in contiguous memory.
-            Each node points to the next via memory address (pointer). This is why we can't jump to middle - must follow the chain!
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="grid md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Value
-            </label>
-            <input
-              type="number"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
-              placeholder="Enter value"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Position (0 to {list.length})
-            </label>
-            <input
-              type="number"
-              value={inputPosition}
-              onChange={(e) => setInputPosition(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
-              placeholder="Enter position"
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-wrap gap-2 mb-4">
-          <button
-            onClick={handleInsertBeginning}
-            className="bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
-            title="Insert at beginning - O(1)"
-          >
-            Insert Beginning → O(1) ⚡
-          </button>
-          <button
-            onClick={handleInsertEnd}
-            className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
-            title="Insert at end - O(n)"
-          >
-            Insert End → O(n)
-          </button>
-          <button
-            onClick={handleInsertPosition}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
-            title="Insert at position - O(n)"
-          >
-            Insert Position → O(n)
-          </button>
-          <button
-            onClick={handleDelete}
-            className="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
-            title="Delete by value - O(n)"
-          >
-            Delete → O(n)
-          </button>
-          <button
-            onClick={handleSearch}
-            className="bg-purple-500 hover:bg-purple-600 text-white px-5 py-3 rounded-lg font-semibold transition-colors"
-            title="Search for value - O(n)"
-          >
-            Search → O(n)
-          </button>
-        </div>
-
-        {message && (
-          <div className="bg-green-50 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded">
-            <strong>Result:</strong> {message}
-          </div>
-        )}
-      </div>
-
-      <ComplexityInfo data={complexityData} />
-
-      {/* Java List Implementations - LinkedList is also a List! */}
-      <div className="mt-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
-          Java List Implementations - Complete Guide
-        </h2>
-        <p className="text-gray-600 mb-6 text-lg">
-          LinkedList is one of Java's List implementations! Below you'll find ALL List types including
-          ArrayList vs LinkedList comparison, Deque operations, Vector, CopyOnWriteArrayList, and Java 21
-          Sequenced Collections features.
-        </p>
-        <JavaListImplementations />
-      </div>
-
-      <div className="mt-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
-          Detailed Code Comparison
-        </h2>
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-6 mt-6">
-        <CodeDisplay
-          title="Singly Linked List from Scratch (detailed explanations)"
-          code={scratchCode}
-          language="java"
-        />
-        <CodeDisplay
-          title="Using Java's LinkedList (doubly-linked)"
-          code={libraryCode}
-          language="java"
-        />
       </div>
 
       {/* Quick Tips */}
@@ -1262,6 +1315,7 @@ boolean hasCycle(Node head) {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     </div>
   )

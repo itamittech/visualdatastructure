@@ -496,9 +496,38 @@ public class SetExample {
         </button>
       </div>
 
-      {/* Theory Section */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg shadow-md p-8 mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">What is a Hash Set?</h2>
+      {/* Learning Path Progress Indicator */}
+      <div className="mb-8 bg-gradient-to-r from-blue-100 via-green-100 to-purple-100 rounded-lg shadow-md p-6 border-2 border-blue-300">
+        <div className="flex items-center justify-center">
+          <div className="text-2xl mr-3">🎯</div>
+          <h3 className="font-bold text-lg text-gray-800 mr-6">Learning Path:</h3>
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow font-bold">
+              <span className="mr-2">1</span> Theory
+            </div>
+            <span className="text-gray-400 text-2xl">→</span>
+            <div className="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg shadow font-bold">
+              <span className="mr-2">2</span> Practice
+            </div>
+            <span className="text-gray-400 text-2xl">→</span>
+            <div className="flex items-center bg-purple-500 text-white px-4 py-2 rounded-lg shadow font-bold">
+              <span className="mr-2">3</span> Code
+            </div>
+            <span className="text-gray-400 text-2xl">→</span>
+            <div className="flex items-center bg-slate-500 text-white px-4 py-2 rounded-lg shadow font-bold">
+              <span className="mr-2">4</span> Advanced
+            </div>
+          </div>
+        </div>
+        <p className="text-center text-sm text-gray-600 mt-3">Follow this path from basic concepts to production-grade knowledge</p>
+      </div>
+
+      {/* STEP 1: Theory Section */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-md p-8 mb-8 border-l-8 border-blue-500">
+        <div className="flex items-center mb-4">
+          <div className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4 shadow-lg">1</div>
+          <h2 className="text-3xl font-bold text-gray-800">Theory: What is a Hash Set?</h2>
+        </div>
 
         <div className="space-y-4 text-gray-700">
           <p className="text-lg leading-relaxed">
@@ -641,12 +670,215 @@ public class SetExample {
         </div>
       </div>
 
-      {/* Advanced Technical Deep Dive */}
-      <div className="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg shadow-md p-8 mb-8 border-l-4 border-purple-600">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4 flex items-center">
-          <span className="text-3xl mr-3">🔬</span>
-          Advanced: Hash Functions, Collisions & Production Scale
+      {showLearningMode && (
+        <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
+          <div className="flex items-start">
+            <div className="text-3xl mr-3">🎓</div>
+            <div>
+              <div className="font-bold text-green-800 text-lg mb-1">
+                Learning Mode Active!
+              </div>
+              <div className="text-green-700">
+                Perform Add operation to see how hash functions work and why sets achieve O(1) lookup time!
+                Watch how elements are placed in buckets using hash calculations.
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Step-by-step Visualizer */}
+      {operationSteps && (
+        <OperationVisualizer
+          operation={operationSteps.operation}
+          steps={operationSteps.steps}
+          onComplete={() => setOperationSteps(null)}
+        />
+      )}
+
+      {/* STEP 2: Interactive Practice Section */}
+      <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg shadow-md p-8 mb-8 border-l-8 border-green-500">
+        <div className="flex items-center mb-4">
+          <div className="bg-green-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4 shadow-lg">2</div>
+          <h2 className="text-3xl font-bold text-gray-800">Practice: Interactive Set Visualization</h2>
+        </div>
+
+        {/* Set Display */}
+        <div className="mb-6">
+          <div className="flex flex-wrap gap-3 p-6 min-h-[150px] bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg">
+            {Array.from(set).length === 0 ? (
+              <div className="text-gray-500 m-auto text-lg">Set is empty - No elements stored</div>
+            ) : (
+              Array.from(set).map((value) => {
+                const hashValue = calculateHash(value)
+                return (
+                  <div
+                    key={value}
+                    className={`transition-all duration-300 ${
+                      highlightValue === value ? 'scale-110' : ''
+                    }`}
+                  >
+                    <div className="text-xs text-center text-gray-500 mb-1 font-semibold">
+                      Hash: {hashValue}
+                    </div>
+                    <div
+                      className={`w-20 h-20 rounded-full border-2 flex items-center justify-center font-bold text-xl shadow-md
+                        ${highlightValue === value
+                          ? 'bg-yellow-300 border-yellow-500 shadow-xl'
+                          : 'bg-purple-100 border-purple-500'
+                        }`}
+                    >
+                      {value}
+                    </div>
+                    <div className="text-xs text-center text-gray-400 mt-1 font-mono">
+                      bucket[{hashValue}]
+                    </div>
+                  </div>
+                )
+              })
+            )}
+          </div>
+          <div className="grid md:grid-cols-2 gap-3 mt-3 text-sm">
+            <div className="bg-purple-50 p-3 rounded">
+              <strong>Set Size:</strong> {set.size} unique elements
+            </div>
+            <div className="bg-indigo-50 p-3 rounded">
+              <strong>Elements:</strong> {Array.from(set).length > 0 ? `{${Array.from(set).join(', ')}}` : 'none'}
+            </div>
+          </div>
+          <div className="text-sm text-gray-600 mt-3 bg-purple-50 p-3 rounded border-l-4 border-purple-500">
+            <strong>How Hash Sets Work:</strong> Each value is hashed (hash = value % 8) to determine its bucket.
+            Lookups are O(1) because we calculate the bucket directly instead of searching all elements!
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Value (or comma-separated values for Union)
+          </label>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500"
+            placeholder="Enter value(s)"
+          />
+        </div>
+
+        <div className="flex flex-wrap gap-2 mb-4">
+          <button
+            onClick={handleAdd}
+            className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            title="Add element - O(1) average"
+          >
+            Add → O(1)* ⚡
+          </button>
+          <button
+            onClick={handleRemove}
+            className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            title="Remove element - O(1) average"
+          >
+            Remove → O(1)* ⚡
+          </button>
+          <button
+            onClick={handleContains}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            title="Check if contains - O(1) average"
+          >
+            Contains → O(1)* ⚡
+          </button>
+          <button
+            onClick={handleUnion}
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            title="Union with values - O(n+m)"
+          >
+            Union → O(n+m)
+          </button>
+          <button
+            onClick={handleClear}
+            className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            title="Clear all - O(n)"
+          >
+            Clear → O(n)
+          </button>
+        </div>
+
+        {message && (
+          <div className="bg-purple-50 border-l-4 border-purple-500 text-purple-700 px-4 py-3 rounded">
+            <strong>Result:</strong> {message}
+          </div>
+        )}
+
+        <div className="mt-4 bg-yellow-50 border border-yellow-200 text-yellow-900 px-4 py-3 rounded">
+          <strong>Key Property:</strong> Sets do not allow duplicate elements. Adding an existing element will be ignored.
+          This uniqueness is automatically enforced!
+        </div>
+      </div>
+
+      <ComplexityInfo data={complexityData} />
+
+      {/* STEP 3: Code Implementation Section */}
+      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg shadow-md p-8 mb-8 border-l-8 border-purple-500">
+        <div className="flex items-center mb-6">
+          <div className="bg-purple-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4 shadow-lg">3</div>
+          <h2 className="text-3xl font-bold text-gray-800">Code: Implementation Details</h2>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-6">
+          <CodeDisplay
+            title="Hash Set from Scratch (with collision handling)"
+            code={scratchCode}
+            language="java"
+          />
+          <CodeDisplay
+            title="Using Java's HashSet"
+            code={libraryCode}
+            language="java"
+          />
+        </div>
+      </div>
+
+      {/* Java Set Implementations - Complete Guide */}
+      <div className="mt-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Java Set Implementations - Complete Guide
         </h2>
+        <p className="text-gray-600 mb-6 text-lg">
+          Sets come in many flavors in Java! Below you'll find ALL Set implementations including
+          HashSet, LinkedHashSet, TreeSet, EnumSet, CopyOnWriteArraySet, and more. Learn when to use
+          each one, including NavigableSet operations and Java 21 SequencedSet features!
+        </p>
+        <JavaSetImplementations />
+      </div>
+
+      {/* STEP 4: Advanced Section */}
+      <div className="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg shadow-md p-8 mb-8 border-l-8 border-slate-500">
+        <div className="flex items-center mb-4">
+          <div className="bg-slate-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4 shadow-lg">4</div>
+          <h2 className="text-3xl font-bold text-gray-800">Advanced: Architect-Level Deep Dive</h2>
+        </div>
+        <div className="mb-4 text-sm text-gray-600">
+          ⚠️ <strong>Complete Steps 1-3 below before diving into this architect-level content</strong>
+        </div>
+
+        {/* Prominent Notice */}
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 p-6 mb-6 rounded">
+          <div className="flex items-start">
+            <div className="text-3xl mr-3">⚠️</div>
+            <div>
+              <h4 className="font-bold text-yellow-900 text-lg mb-2">Advanced Content - Complete Basic Steps First!</h4>
+              <p className="text-yellow-800 mb-3">
+                This section contains production-grade, architect-level content. For the best learning experience:
+              </p>
+              <ol className="list-decimal list-inside space-y-1 text-yellow-900 text-sm">
+                <li>Scroll up to <strong>Step 2: Interactive Practice</strong> and try the visualizer</li>
+                <li>Review <strong>Step 3: Code Implementation</strong> to understand the basics</li>
+                <li>Then return here for deep dives into hash functions, collision resolution, concurrency, and production patterns</li>
+              </ol>
+            </div>
+          </div>
+        </div>
 
         <div className="space-y-6">
           {/* Hash Function Deep Dive */}
@@ -1279,177 +1511,6 @@ class LRUCache {
           </div>
 
         </div>
-      </div>
-
-      {showLearningMode && (
-        <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
-          <div className="flex items-start">
-            <div className="text-3xl mr-3">🎓</div>
-            <div>
-              <div className="font-bold text-green-800 text-lg mb-1">
-                Learning Mode Active!
-              </div>
-              <div className="text-green-700">
-                Perform Add operation to see how hash functions work and why sets achieve O(1) lookup time!
-                Watch how elements are placed in buckets using hash calculations.
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Step-by-step Visualizer */}
-      {operationSteps && (
-        <OperationVisualizer
-          operation={operationSteps.operation}
-          steps={operationSteps.steps}
-          onComplete={() => setOperationSteps(null)}
-        />
-      )}
-
-      {/* Main Set Visualization */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4">Interactive Set Visualization</h2>
-
-        {/* Set Display */}
-        <div className="mb-6">
-          <div className="flex flex-wrap gap-3 p-6 min-h-[150px] bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg">
-            {Array.from(set).length === 0 ? (
-              <div className="text-gray-500 m-auto text-lg">Set is empty - No elements stored</div>
-            ) : (
-              Array.from(set).map((value) => {
-                const hashValue = calculateHash(value)
-                return (
-                  <div
-                    key={value}
-                    className={`transition-all duration-300 ${
-                      highlightValue === value ? 'scale-110' : ''
-                    }`}
-                  >
-                    <div className="text-xs text-center text-gray-500 mb-1 font-semibold">
-                      Hash: {hashValue}
-                    </div>
-                    <div
-                      className={`w-20 h-20 rounded-full border-2 flex items-center justify-center font-bold text-xl shadow-md
-                        ${highlightValue === value
-                          ? 'bg-yellow-300 border-yellow-500 shadow-xl'
-                          : 'bg-purple-100 border-purple-500'
-                        }`}
-                    >
-                      {value}
-                    </div>
-                    <div className="text-xs text-center text-gray-400 mt-1 font-mono">
-                      bucket[{hashValue}]
-                    </div>
-                  </div>
-                )
-              })
-            )}
-          </div>
-          <div className="grid md:grid-cols-2 gap-3 mt-3 text-sm">
-            <div className="bg-purple-50 p-3 rounded">
-              <strong>Set Size:</strong> {set.size} unique elements
-            </div>
-            <div className="bg-indigo-50 p-3 rounded">
-              <strong>Elements:</strong> {Array.from(set).length > 0 ? `{${Array.from(set).join(', ')}}` : 'none'}
-            </div>
-          </div>
-          <div className="text-sm text-gray-600 mt-3 bg-purple-50 p-3 rounded border-l-4 border-purple-500">
-            <strong>How Hash Sets Work:</strong> Each value is hashed (hash = value % 8) to determine its bucket.
-            Lookups are O(1) because we calculate the bucket directly instead of searching all elements!
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Value (or comma-separated values for Union)
-          </label>
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500"
-            placeholder="Enter value(s)"
-          />
-        </div>
-
-        <div className="flex flex-wrap gap-2 mb-4">
-          <button
-            onClick={handleAdd}
-            className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-            title="Add element - O(1) average"
-          >
-            Add → O(1)* ⚡
-          </button>
-          <button
-            onClick={handleRemove}
-            className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-            title="Remove element - O(1) average"
-          >
-            Remove → O(1)* ⚡
-          </button>
-          <button
-            onClick={handleContains}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-            title="Check if contains - O(1) average"
-          >
-            Contains → O(1)* ⚡
-          </button>
-          <button
-            onClick={handleUnion}
-            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-            title="Union with values - O(n+m)"
-          >
-            Union → O(n+m)
-          </button>
-          <button
-            onClick={handleClear}
-            className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-            title="Clear all - O(n)"
-          >
-            Clear → O(n)
-          </button>
-        </div>
-
-        {message && (
-          <div className="bg-purple-50 border-l-4 border-purple-500 text-purple-700 px-4 py-3 rounded">
-            <strong>Result:</strong> {message}
-          </div>
-        )}
-
-        <div className="mt-4 bg-yellow-50 border border-yellow-200 text-yellow-900 px-4 py-3 rounded">
-          <strong>Key Property:</strong> Sets do not allow duplicate elements. Adding an existing element will be ignored.
-          This uniqueness is automatically enforced!
-        </div>
-      </div>
-
-      <ComplexityInfo data={complexityData} />
-
-      <div className="grid lg:grid-cols-2 gap-6 mt-6">
-        <CodeDisplay
-          title="Hash Set from Scratch (with collision handling)"
-          code={scratchCode}
-          language="java"
-        />
-        <CodeDisplay
-          title="Using Java's HashSet"
-          code={libraryCode}
-          language="java"
-        />
-      </div>
-
-      {/* Java Set Implementations - Complete Guide */}
-      <div className="mt-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
-          Java Set Implementations - Complete Guide
-        </h2>
-        <p className="text-gray-600 mb-6 text-lg">
-          Sets come in many flavors in Java! Below you'll find ALL Set implementations including
-          HashSet, LinkedHashSet, TreeSet, EnumSet, CopyOnWriteArraySet, and more. Learn when to use
-          each one, including NavigableSet operations and Java 21 SequencedSet features!
-        </p>
-        <JavaSetImplementations />
       </div>
 
       {/* Why Sets Are Amazing */}
