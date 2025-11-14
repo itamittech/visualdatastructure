@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import ArrayVisualizer from './pages/ArrayVisualizer'
-import LinkedListVisualizer from './pages/LinkedListVisualizer'
-import SetVisualizer from './pages/SetVisualizer'
+import ArrayVisualizerEnhanced from './pages/ArrayVisualizerEnhanced'
+import LinkedListVisualizerEnhanced from './pages/LinkedListVisualizerEnhanced'
+import SetVisualizerEnhanced from './pages/SetVisualizerEnhanced'
 import Home from './pages/Home'
 
 function App() {
@@ -33,9 +33,9 @@ function App() {
         <main className="container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/array" element={<ArrayVisualizer />} />
-            <Route path="/linkedlist" element={<LinkedListVisualizer />} />
-            <Route path="/set" element={<SetVisualizer />} />
+            <Route path="/array" element={<ArrayVisualizerEnhanced />} />
+            <Route path="/linkedlist" element={<LinkedListVisualizerEnhanced />} />
+            <Route path="/set" element={<SetVisualizerEnhanced />} />
           </Routes>
         </main>
       </div>
