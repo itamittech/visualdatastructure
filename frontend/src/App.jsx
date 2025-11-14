@@ -4,6 +4,8 @@ import ArrayVisualizerEnhanced from './pages/ArrayVisualizerEnhanced'
 import LinkedListVisualizerEnhanced from './pages/LinkedListVisualizerEnhanced'
 import SetVisualizerEnhanced from './pages/SetVisualizerEnhanced'
 import Home from './pages/Home'
+import Introduction from './pages/Introduction'
+import ComplexityGuide from './pages/ComplexityGuide'
 
 function App() {
   return (
@@ -16,6 +18,12 @@ function App() {
                 Visual Data Structure
               </Link>
               <div className="flex space-x-4">
+                <Link to="/introduction" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Introduction
+                </Link>
+                <Link to="/complexity" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Complexity
+                </Link>
                 <Link to="/array" className="hover:bg-blue-700 px-3 py-2 rounded">
                   Array
                 </Link>
@@ -33,6 +41,8 @@ function App() {
         <main className="container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/introduction" element={<Introduction />} />
+            <Route path="/complexity" element={<ComplexityGuide />} />
             <Route path="/array" element={<ArrayVisualizerEnhanced />} />
             <Route path="/linkedlist" element={<LinkedListVisualizerEnhanced />} />
             <Route path="/set" element={<SetVisualizerEnhanced />} />
