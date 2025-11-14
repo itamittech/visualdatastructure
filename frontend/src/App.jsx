@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import ArrayVisualizerEnhanced from './pages/ArrayVisualizerEnhanced'
 import LinkedListVisualizerEnhanced from './pages/LinkedListVisualizerEnhanced'
 import SetVisualizerEnhanced from './pages/SetVisualizerEnhanced'
+import StackVisualizerEnhanced from './pages/StackVisualizerEnhanced'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -33,6 +34,9 @@ function App() {
                 <Link to="/set" className="hover:bg-blue-700 px-3 py-2 rounded">
                   Set
                 </Link>
+                <Link to="/stack" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Stack
+                </Link>
               </div>
             </div>
           </div>
@@ -46,6 +50,7 @@ function App() {
             <Route path="/array" element={<ArrayVisualizerEnhanced />} />
             <Route path="/linkedlist" element={<LinkedListVisualizerEnhanced />} />
             <Route path="/set" element={<SetVisualizerEnhanced />} />
+            <Route path="/stack" element={<StackVisualizerEnhanced />} />
           </Routes>
         </main>
       </div>
