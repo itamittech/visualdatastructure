@@ -641,6 +641,646 @@ public class SetExample {
         </div>
       </div>
 
+      {/* Advanced Technical Deep Dive */}
+      <div className="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg shadow-md p-8 mb-8 border-l-4 border-purple-600">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4 flex items-center">
+          <span className="text-3xl mr-3">🔬</span>
+          Advanced: Hash Functions, Collisions & Production Scale
+        </h2>
+
+        <div className="space-y-6">
+          {/* Hash Function Deep Dive */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🔐 Hash Function Implementation Deep Dive</h3>
+
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-4 rounded">
+                <h4 className="font-semibold text-gray-800 mb-2">Java hashCode() Implementation</h4>
+                <pre className="bg-slate-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// String hashCode() - Polynomial hash function
+// "hello" → 99162322
+public int hashCode() {
+    int h = hash;  // Cached after first call
+    if (h == 0 && value.length > 0) {
+        for (int i = 0; i < value.length; i++) {
+            h = 31 * h + value[i];
+        }
+        hash = h;  // Cache for future calls
+    }
+    return h;
+}
+
+// Why 31?
+✓ Prime number → better distribution
+✓ 31 * h = (h << 5) - h → JVM optimizes to bit shift
+✓ Small enough to avoid overflow issues
+✓ Large enough to spread values
+
+// Example: "cat"
+h = 0
+h = 31 * 0 + 'c' = 99
+h = 31 * 99 + 'a' = 3166
+h = 31 * 3166 + 't' = 98193
+Result: 98193
+
+// Collision example:
+"Aa".hashCode() = 2112
+"BB".hashCode() = 2112  // COLLISION!
+// 'A' = 65, 'a' = 97, 'B' = 66
+// 31 * 65 + 97 = 2112
+// 31 * 66 + 66 = 2112`}
+                </pre>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-blue-50 p-4 rounded">
+                  <h4 className="font-semibold text-blue-900 mb-2">HashMap Index Calculation</h4>
+                  <pre className="text-xs bg-white p-2 rounded">
+{`// HashSet uses HashMap internally
+// Two-step process:
+
+// Step 1: Spread hash bits (XOR fold)
+static int hash(Object key) {
+    int h = key.hashCode();
+    // XOR high 16 bits with low 16 bits
+    return h ^ (h >>> 16);
+}
+// Why? Reduces collisions when
+// table size is power of 2
+
+// Step 2: Map to bucket index
+int index = hash & (capacity - 1);
+// Equivalent to: hash % capacity
+// But much faster (bit AND vs modulo)
+// Only works when capacity is power of 2!
+
+Example: hash = 12345, capacity = 16
+12345 & 15 = 12345 & 0b1111
+           = 0b11000000111001 & 0b1111
+           = 0b1001
+           = 9  ← bucket index`}
+                  </pre>
+                </div>
+
+                <div className="bg-red-50 p-4 rounded">
+                  <h4 className="font-semibold text-red-900 mb-2">Bad Hash Functions</h4>
+                  <pre className="text-xs bg-white p-2 rounded">
+{`// BAD: Always returns same value
+@Override
+public int hashCode() {
+    return 42;  // All objects → bucket 0!
+}
+// Result: O(1) → O(n) degradation
+// Essentially becomes a linked list
+
+// BAD: Uses only part of data
+class Point {
+    int x, y;
+    public int hashCode() {
+        return x;  // Ignores y!
+    }
+}
+// (1,5) and (1,10) collide!
+
+// GOOD: Combines all fields
+public int hashCode() {
+    return 31 * x + y;
+}
+// Or use Objects.hash(x, y);`}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Collision Resolution */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">💥 Collision Resolution Strategies</h3>
+
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">Separate Chaining (Java uses this)</h4>
+                <pre className="bg-slate-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// Each bucket stores a linked list
+bucket[0]: null
+bucket[1]: 17 → 33 → 49 → null
+bucket[2]: 10 → 26 → null
+bucket[3]: null
+...
+
+// Insert 65 (hash = 1):
+bucket[1]: 17 → 33 → 49 → 65 → null
+
+// Search for 33:
+1. Calculate hash(33) = 1
+2. Go to bucket[1]
+3. Traverse list: 17 → 33 ✓
+// Average: O(1) if load factor < 0.75
+// Worst: O(n) if all in one bucket
+
+// Java 8+ optimization:
+// If bucket size > 8, convert to TreeNode
+// Degraded O(n) → O(log n) ✓`}
+                </pre>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">Open Addressing (Python dict uses this)</h4>
+                <pre className="bg-slate-900 text-yellow-400 p-3 rounded text-xs overflow-x-auto">
+{`// Store directly in array, probe if occupied
+bucket[0]: 10
+bucket[1]: 17
+bucket[2]: 26
+bucket[3]: 33  ← Insert 33
+bucket[4]: null
+
+// Insert 17 (hash = 1, occupied!):
+// Linear probing: try 1, 2, 3...
+// Find empty slot at 1 (already taken)
+// Try 2 (taken), try 3, insert!
+
+// Probing strategies:
+1. Linear: (hash + i) % capacity
+2. Quadratic: (hash + i²) % capacity
+3. Double hash: (hash1 + i*hash2) % cap
+
+Pros: Better cache locality (no pointers)
+Cons: Clustering, expensive deletions`}
+                </pre>
+              </div>
+            </div>
+
+            <div className="bg-yellow-50 border-l-4 border-yellow-600 p-4">
+              <h4 className="font-semibold text-yellow-900 mb-2">Load Factor & Resizing</h4>
+              <pre className="bg-white p-3 rounded text-xs overflow-x-auto">
+{`// Load Factor = size / capacity
+// HashMap default: 0.75
+
+Why 0.75?
+✓ Space-time tradeoff sweet spot
+✓ Keeps chain length < 1 on average
+✓ Reduces probability of collisions
+
+// Resize trigger
+if (size > capacity * loadFactor) {
+    resize();  // Double capacity
+}
+
+// Resize process (expensive!)
+void resize() {
+    int newCapacity = capacity * 2;
+    Node[] newBuckets = new Node[newCapacity];
+
+    // Rehash ALL elements!
+    for (Node bucket : oldBuckets) {
+        for (Node node = bucket; node != null; node = node.next) {
+            int newIndex = hash(node.key) % newCapacity;
+            // Insert into newBuckets[newIndex]
+        }
+    }
+    buckets = newBuckets;
+}
+
+// Cost: O(n) to rehash all elements
+// But happens rarely → amortized O(1)
+
+// Production tip: Set initial capacity!
+Set<Integer> set = new HashSet<>(10_000);
+// Avoids ~10 resize operations`}
+              </pre>
+            </div>
+          </div>
+
+          {/* Concurrency */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🔒 Concurrent Hash Sets</h3>
+
+            <div className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-red-50 p-4 rounded border-l-4 border-red-500">
+                  <h4 className="font-semibold text-red-900 mb-2">❌ HashSet Race Condition</h4>
+                  <pre className="text-xs bg-white p-2 rounded">
+{`HashSet<Integer> set = new HashSet<>();
+
+// Thread 1            Thread 2
+if (!set.contains(42)) {
+    // Context switch!
+                       if (!set.contains(42)) {
+                           set.add(42);
+                       }
+    set.add(42);
+}
+
+// Both threads think 42 isn't present
+// Both add 42 (violates set invariant!)
+// Or worse: concurrent resize corrupts
+//           internal structure → infinite loop!
+
+// Never share HashSet across threads!`}
+                  </pre>
+                </div>
+
+                <div className="bg-green-50 p-4 rounded border-l-4 border-green-500">
+                  <h4 className="font-semibold text-green-900 mb-2">✓ ConcurrentHashMap.newKeySet()</h4>
+                  <pre className="text-xs bg-white p-2 rounded">
+{`// Java 8+: Concurrent Set backed by CHM
+Set<Integer> set =
+    ConcurrentHashMap.newKeySet();
+
+set.add(42);  // Thread-safe!
+set.contains(42);  // Lock-free reads
+
+// Or from existing CHM:
+ConcurrentHashMap<Integer, String> map =
+    new ConcurrentHashMap<>();
+Set<Integer> keys = map.keySet();
+
+// Lock striping: 16 segments by default
+// Multiple threads can write
+// to different segments concurrently!`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 p-4 rounded">
+                <h4 className="font-semibold text-blue-900 mb-2">ConcurrentHashMap Architecture</h4>
+                <pre className="bg-slate-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// Java 8+ uses CAS (Compare-And-Swap) + synchronized blocks
+// Instead of locking entire map, locks individual buckets
+
+Segment 0:  [bucket0][bucket1][bucket2][bucket3]
+Segment 1:  [bucket4][bucket5][bucket6][bucket7]
+...
+Segment 15: [bucket60][bucket61][bucket62][bucket63]
+
+// put() operation:
+1. Calculate hash → determine segment and bucket
+2. Use CAS to update if bucket is empty (lock-free!)
+3. If collision, synchronized on bucket head
+4. Only that specific bucket is locked!
+
+// Benefits:
+✓ 16 threads can write concurrently (different segments)
+✓ Readers never block (volatile reads)
+✓ Scales well on multi-core CPUs
+
+// Trade-offs vs Collections.synchronizedSet():
+ConcurrentHashMap.newKeySet():
+✓ Lock-free reads
+✓ Fine-grained locking
+✓ Better scalability
+✗ Slightly more memory
+
+Collections.synchronizedSet(new HashSet<>()):
+✓ Simple wrapper
+✗ Global lock on every operation
+✗ Readers block writers
+✗ Poor scalability
+
+Benchmark (8 threads, 80% reads):
+ConcurrentHashMap:        45M ops/sec ⚡
+Collections.synchronized:  2M ops/sec 🐌
+Speedup: 22.5x!`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Production Patterns */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🏭 Production Patterns & Performance</h3>
+
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-3 text-lg">Pattern: Deduplication at Scale</h4>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div className="bg-red-50 p-3 rounded">
+                    <p className="text-xs font-semibold text-red-800 mb-2">❌ Naive O(n²)</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`List<Integer> unique = new ArrayList<>();
+for (Integer num : list) {
+    if (!unique.contains(num)) {
+        unique.add(num);
+    }
+}
+
+// contains() is O(n) for ArrayList
+// Total: O(n²)
+// 1M items = 500B comparisons! 💀
+
+Benchmark (1M duplicates):
+Time: ~4500ms`}
+                    </pre>
+                  </div>
+                  <div className="bg-green-50 p-3 rounded">
+                    <p className="text-xs font-semibold text-green-800 mb-2">✓ HashSet O(n)</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`Set<Integer> seen = new HashSet<>(
+    list.size());  // Preallocate!
+List<Integer> unique = new ArrayList<>();
+
+for (Integer num : list) {
+    if (seen.add(num)) {  // O(1) check + add
+        unique.add(num);
+    }
+}
+
+// Or even simpler:
+List<Integer> unique = new ArrayList<>(
+    new LinkedHashSet<>(list));
+
+Benchmark (1M duplicates):
+Time: ~15ms ⚡
+Speedup: 300x faster!`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-3 text-lg">Pattern: Intersection/Union at Scale</h4>
+                <pre className="bg-slate-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// Problem: Find common users between two large lists
+List<Long> listA = getUserIds("GroupA");  // 1M users
+List<Long> listB = getUserIds("GroupB");  // 500K users
+
+// BAD: Nested loops O(n × m)
+Set<Long> common = new HashSet<>();
+for (Long id : listA) {
+    if (listB.contains(id)) {  // O(m) for each!
+        common.add(id);
+    }
+}
+// 1M × 500K = 500B comparisons 💀
+
+// GOOD: Convert to sets first O(n + m)
+Set<Long> setA = new HashSet<>(listA);     // O(n)
+Set<Long> setB = new HashSet<>(listB);     // O(m)
+setA.retainAll(setB);  // Intersection O(n)
+// Total: O(n + m) = 1.5M operations ⚡
+
+Benchmark:
+Bad:  ~45 seconds 🐌
+Good: ~120ms ⚡
+Speedup: 375x!
+
+// Bonus: parallel streams for huge datasets
+Set<Long> intersection = setA.parallelStream()
+    .filter(setB::contains)
+    .collect(Collectors.toSet());
+// Utilizes all CPU cores!`}
+                </pre>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-3 text-lg">Anti-Pattern: HashSet with Mutable Objects</h4>
+                <div className="bg-red-50 p-4 rounded border-l-4 border-red-600">
+                  <pre className="bg-white p-3 rounded text-xs overflow-x-auto">
+{`class MutablePoint {
+    int x, y;
+
+    public int hashCode() {
+        return 31 * x + y;
+    }
+
+    public boolean equals(Object o) {
+        MutablePoint p = (MutablePoint) o;
+        return x == p.x && y == p.y;
+    }
+}
+
+Set<MutablePoint> set = new HashSet<>();
+MutablePoint p = new MutablePoint(1, 2);
+set.add(p);                 // hashCode = 33
+System.out.println(set.contains(p));  // true ✓
+
+p.x = 5;                    // MUTATE! 🚨
+// Now hashCode = 157 (different!)
+System.out.println(set.contains(p));  // FALSE! 💀
+
+// The object is in the set but lost in wrong bucket!
+// set.size() = 1 but iteration finds it... chaos!
+
+// Rule: NEVER modify hashCode/equals fields after adding to Set/Map
+// Best practice: Use immutable objects
+record Point(int x, int y) {}  // Java 14+ records are immutable
+Set<Point> set = new HashSet<>();`}
+                  </pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-3 text-lg">Memory-Efficient Alternatives</h4>
+                <pre className="bg-white border p-3 rounded text-xs overflow-x-auto">
+{`// Scenario: Set of integers 0-1M (sparse)
+// HashSet: ~48 bytes per entry (object overhead + Entry node)
+// 100K integers = ~4.8MB
+
+// Better: BitSet for dense integer ranges
+BitSet bitSet = new BitSet(1_000_000);
+bitSet.set(42);              // O(1)
+boolean has = bitSet.get(42); // O(1)
+
+// Memory: 1M bits / 8 = 125KB (38x less!)
+// Perfect for: IP addresses, user IDs, flags
+
+// Scenario: Set of Enums
+enum Status { PENDING, APPROVED, REJECTED, ARCHIVED }
+
+// BAD: Regular HashSet
+Set<Status> statuses = new HashSet<>();
+// Memory: ~48 bytes per enum instance
+
+// GOOD: EnumSet (bitfield internally!)
+Set<Status> statuses = EnumSet.noneOf(Status.class);
+statuses.add(Status.PENDING);
+
+// Memory: Just 1 long (8 bytes) for ≤64 enums!
+// All operations: O(1) bit manipulation
+// 100x faster than HashSet for enums
+
+Benchmark (1M operations on 10 enums):
+HashSet:   120ms
+EnumSet:    1.2ms ⚡
+Speedup: 100x faster!`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Interview Problems */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🎯 Interview-Level Hash Set Problems</h3>
+
+            <div className="space-y-4">
+              <div className="bg-slate-50 p-4 rounded">
+                <h4 className="font-semibold text-slate-800 mb-2">Problem: Two Sum (Amazon/Google - LeetCode #1)</h4>
+                <p className="text-sm text-gray-600 mb-3">Given array of integers, find two numbers that add up to target.</p>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div>
+                    <p className="text-xs font-semibold mb-2">Naive: O(n²) time, O(1) space</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`for (int i = 0; i < nums.length; i++) {
+    for (int j = i+1; j < nums.length; j++) {
+        if (nums[i] + nums[j] == target) {
+            return new int[]{i, j};
+        }
+    }
+}
+
+// Check every pair
+// 1M elements = 500B comparisons 🐌`}
+                    </pre>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold mb-2">Optimal: O(n) time, O(n) space ⚡</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`Map<Integer, Integer> seen = new HashMap<>();
+for (int i = 0; i < nums.length; i++) {
+    int complement = target - nums[i];
+    if (seen.containsKey(complement)) {
+        return new int[]{
+            seen.get(complement), i};
+    }
+    seen.put(nums[i], i);
+}
+
+// One pass! Trade space for time
+// Key insight: x + y = target
+//             → y = target - x`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded">
+                <h4 className="font-semibold text-slate-800 mb-2">Problem: Longest Consecutive Sequence (Hard - O(n) solution)</h4>
+                <p className="text-sm text-gray-600 mb-3">Given unsorted array, find length of longest consecutive sequence. [100,4,200,1,3,2] → 4 (sequence: 1,2,3,4)</p>
+                <pre className="bg-white p-3 rounded text-xs overflow-x-auto">
+{`// Naive: Sort first → O(n log n)
+// Can we do O(n)? Yes, with HashSet!
+
+int longestConsecutive(int[] nums) {
+    Set<Integer> set = new HashSet<>();
+    for (int num : nums) {
+        set.add(num);  // O(n)
+    }
+
+    int longest = 0;
+
+    for (int num : set) {
+        // Only start counting if it's the beginning of a sequence
+        if (!set.contains(num - 1)) {  // O(1) check!
+            int current = num;
+            int streak = 1;
+
+            // Count consecutive numbers
+            while (set.contains(current + 1)) {  // O(1) per check
+                current++;
+                streak++;
+            }
+
+            longest = Math.max(longest, streak);
+        }
+    }
+    return longest;
+}
+
+// Time: O(n) - Each number visited at most twice
+// Space: O(n) - HashSet storage
+//
+// Key insight: Only count from sequence START
+// If num-1 exists, num is not a start, skip it!
+// This prevents recounting: [1,2,3] only counts from 1
+//
+// Brilliant use of HashSet for O(1) lookups! ✨`}
+                </pre>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded">
+                <h4 className="font-semibold text-slate-800 mb-2">Problem: Design LRU Cache (Microsoft/Facebook)</h4>
+                <pre className="bg-white p-3 rounded text-xs overflow-x-auto">
+{`// Must support O(1) get() and put()
+// Evict least recently used when at capacity
+
+class LRUCache {
+    private final int capacity;
+    private final Map<Integer, Node> map;
+    private final Node head, tail;  // Doubly-linked list
+
+    class Node {
+        int key, value;
+        Node prev, next;
+    }
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.map = new HashMap<>();
+        head = new Node();
+        tail = new Node();
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key) {
+        if (!map.containsKey(key)) return -1;
+
+        Node node = map.get(key);
+        moveToHead(node);  // Mark as recently used
+        return node.value;
+    }
+
+    public void put(int key, int value) {
+        if (map.containsKey(key)) {
+            Node node = map.get(key);
+            node.value = value;
+            moveToHead(node);
+        } else {
+            if (map.size() >= capacity) {
+                Node lru = tail.prev;  // Evict LRU
+                remove(lru);
+                map.remove(lru.key);
+            }
+            Node node = new Node();
+            node.key = key;
+            node.value = value;
+            addToHead(node);
+            map.put(key, node);
+        }
+    }
+
+    private void moveToHead(Node node) {
+        remove(node);
+        addToHead(node);
+    }
+
+    private void remove(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void addToHead(Node node) {
+        node.next = head.next;
+        node.prev = head;
+        head.next.prev = node;
+        head.next = node;
+    }
+}
+
+// Why this works:
+// HashMap: O(1) lookup
+// Doubly-linked list: O(1) move to front, O(1) remove from tail
+// Combination gives O(1) for everything!
+//
+// Real-world use: Database query caching, CDN, browser cache`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       {showLearningMode && (
         <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
           <div className="flex items-start">
