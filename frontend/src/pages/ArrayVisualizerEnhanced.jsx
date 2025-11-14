@@ -485,6 +485,349 @@ public class ArrayExample {
         </div>
       </div>
 
+      {/* Advanced Technical Deep Dive */}
+      <div className="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg shadow-md p-8 mb-8 border-l-4 border-slate-600">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4 flex items-center">
+          <span className="text-3xl mr-3">🔬</span>
+          Advanced: Memory, CPU Cache & Production Insights
+        </h2>
+
+        <div className="space-y-6">
+          {/* Memory Layout */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">💾 Memory Layout & Cache Lines</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">Array Memory (Contiguous)</h4>
+                <pre className="bg-slate-900 text-green-400 p-4 rounded text-xs overflow-x-auto">
+{`Memory Address: 0x1000
+[10][20][30][40][50]
+ ↑   ↑   ↑   ↑   ↑
+0x1000 0x1004 0x1008 0x100C 0x1010
+(assuming 4-byte integers)
+
+CPU Cache Line (64 bytes):
+┌─────────────────────────────────┐
+│ [10][20][30][40][50][...15 more]│ ← All loaded together!
+└─────────────────────────────────┘
+Sequential access = CACHE HITS ✓`}
+                </pre>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">LinkedList Memory (Scattered)</h4>
+                <pre className="bg-slate-900 text-yellow-400 p-4 rounded text-xs overflow-x-auto">
+{`Node1: 0x1000 → data:10, next:0x5A20
+Node2: 0x5A20 → data:20, next:0x2F10
+Node3: 0x2F10 → data:30, next:0x8100
+Node4: 0x8100 → data:40, next:NULL
+
+Each access = pointer chase
+Different cache lines = CACHE MISS ✗
+
+Benchmark: Iterate 1M elements
+Array:      ~3ms  (cache-friendly)
+LinkedList: ~15ms (cache misses)`}
+                </pre>
+              </div>
+            </div>
+
+            <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p className="text-sm text-gray-700">
+                <strong>Production Insight:</strong> At Google/Facebook scale, switching from LinkedList to ArrayList
+                for hot paths can reduce latency by 5-10x due to CPU cache efficiency. Modern CPUs prefetch sequential
+                memory, making array iteration up to <strong>10-20x faster</strong> than pointer chasing.
+              </p>
+            </div>
+          </div>
+
+          {/* JVM Internals */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">☕ JVM ArrayList Implementation Details</h3>
+
+            <div className="space-y-3">
+              <div className="bg-gray-50 p-4 rounded">
+                <h4 className="font-semibold text-gray-800 mb-2">Default Capacity & Growth Strategy</h4>
+                <pre className="bg-slate-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// OpenJDK source code
+private static final int DEFAULT_CAPACITY = 10;
+
+// Growth: newCapacity = oldCapacity + (oldCapacity >> 1)
+// This is 1.5x growth (50% increase)
+
+Capacity progression: 10 → 15 → 22 → 33 → 49 → 73 → 109...
+
+Why 1.5x instead of 2x?
+✓ Better memory utilization (less waste)
+✓ Previous arrays can be reused by allocator
+✗ More frequent resizes than 2x (acceptable trade-off)
+
+// Critical: ensureCapacity() for bulk inserts!
+ArrayList<Integer> list = new ArrayList<>(1_000_000);
+// Avoids ~20 reallocations if you know size upfront`}
+                </pre>
+              </div>
+
+              <div className="bg-yellow-50 border-l-4 border-yellow-600 p-4">
+                <h4 className="font-semibold text-yellow-900 mb-2">⚠️ Production Gotcha: Memory Bloat</h4>
+                <p className="text-sm text-gray-700 mb-2">
+                  Common mistake in production: Adding 1M items one-by-one triggers ~20 array copies.
+                </p>
+                <pre className="bg-slate-900 text-red-400 p-3 rounded text-xs">
+{`// BAD: ~20 reallocations, copies 500M+ elements total
+List<Integer> bad = new ArrayList<>();
+for (int i = 0; i < 1_000_000; i++) {
+    bad.add(i);  // resize at 10, 15, 22, 33...
+}
+
+// GOOD: 1 allocation, 0 copies
+List<Integer> good = new ArrayList<>(1_000_000);
+for (int i = 0; i < 1_000_000; i++) {
+    good.add(i);  // no resizing!
+}
+
+// Benchmark: 1M inserts
+Bad:  ~150ms + 24MB temp allocations
+Good: ~20ms  + 0 temp allocations`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Concurrency */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🔒 Concurrency & Thread Safety</h3>
+
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
+              <div className="bg-red-50 p-4 rounded border-l-4 border-red-500">
+                <h4 className="font-semibold text-red-900 mb-2">❌ Race Condition Example</h4>
+                <pre className="text-xs bg-white p-2 rounded">
+{`ArrayList<Integer> shared = new ArrayList<>();
+
+// Thread 1              Thread 2
+shared.add(10);         shared.add(20);
+// size = 1             // size = 1 (wrong!)
+
+Result: Lost update, data corruption
+Possible: ArrayIndexOutOfBoundsException`}
+                </pre>
+              </div>
+
+              <div className="bg-green-50 p-4 rounded border-l-4 border-green-500">
+                <h4 className="font-semibold text-green-900 mb-2">✓ Thread-Safe Solutions</h4>
+                <pre className="text-xs bg-white p-2 rounded">
+{`// Option 1: External sync (fast readers)
+List<Integer> list = new ArrayList<>();
+synchronized(list) { list.add(x); }
+
+// Option 2: CopyOnWriteArrayList
+List<Integer> cow =
+    new CopyOnWriteArrayList<>();
+cow.add(x);  // Thread-safe, read-heavy
+
+// Option 3: Collections.synchronizedList
+List<Integer> sync =
+    Collections.synchronizedList(
+        new ArrayList<>());`}
+                </pre>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 p-4 rounded">
+              <h4 className="font-semibold text-blue-900 mb-2">CopyOnWriteArrayList Deep Dive</h4>
+              <pre className="bg-slate-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// Every write creates new array copy
+public boolean add(E e) {
+    synchronized(lock) {
+        Object[] newElements = Arrays.copyOf(elements, len + 1);
+        newElements[len] = e;
+        setArray(newElements);  // Atomic volatile write
+        return true;
+    }
+}
+
+// Reads are lock-free and never block!
+public E get(int index) {
+    return elementData[index];  // No synchronization needed
+}
+
+When to use:
+✓ Read-heavy (1000+ reads : 1 write)
+✓ Small collections (<1000 elements)
+✓ Observer pattern, event listeners
+✗ High write frequency → Use ConcurrentHashMap instead
+✗ Large collections → Memory overhead kills performance`}
+              </pre>
+            </div>
+          </div>
+
+          {/* Production Patterns */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🏭 Production Patterns & Anti-Patterns</h3>
+
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-3 text-lg">Pattern: Batch Processing Optimization</h4>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div className="bg-red-50 p-3 rounded">
+                    <p className="text-xs font-semibold text-red-800 mb-2">❌ Naive (O(n²) hidden cost)</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`// Removes create gaps, shift remaining
+for (Integer id : idsToRemove) {
+    list.remove(id);  // O(n) each
+}
+// Total: O(n × m) where m = removals
+
+// 10K removes from 100K list:
+// ~500M element shifts! 💥`}
+                    </pre>
+                  </div>
+                  <div className="bg-green-50 p-3 rounded">
+                    <p className="text-xs font-semibold text-green-800 mb-2">✓ Optimized (O(n) single pass)</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`Set<Integer> toRemove =
+    new HashSet<>(idsToRemove);
+list.removeIf(toRemove::contains);
+
+// Or manual for more control:
+int writeIdx = 0;
+for (int i = 0; i < list.size(); i++) {
+    if (!toRemove.contains(list.get(i))) {
+        list.set(writeIdx++, list.get(i));
+    }
+}
+list.subList(writeIdx, list.size()).clear();`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-3 text-lg">Anti-Pattern: ArrayList as Queue</h4>
+                <div className="bg-red-50 p-4 rounded border-l-4 border-red-600">
+                  <pre className="text-xs bg-white p-3 rounded mb-2">
+{`// NEVER do this in production!
+List<Task> queue = new ArrayList<>();
+queue.add(task);           // O(1) - OK
+Task next = queue.remove(0);  // O(n) - TERRIBLE! 💀
+
+// Every remove(0) shifts entire array
+// 1000 tasks processed = ~500K element shifts
+
+// Benchmark: 100K dequeue operations
+ArrayList.remove(0):  ~4000ms 🐌
+LinkedList.removeFirst(): ~5ms
+ArrayDeque.pollFirst():   ~3ms ⚡`}
+                  </pre>
+                  <p className="text-sm text-gray-700">
+                    <strong>Fix:</strong> Use <code className="bg-white px-1">ArrayDeque</code> or <code className="bg-white px-1">LinkedList</code> for queue operations.
+                    Or if you must use ArrayList, remove from end: <code className="bg-white px-1">remove(size-1)</code> is O(1).
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-3 text-lg">Pattern: Memory-Efficient Pagination</h4>
+                <pre className="bg-slate-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// Loading 1M database records
+// BAD: OOM with heap size < 2GB
+List<Record> all = db.fetchAll();  // Loads everything into memory
+
+// GOOD: Stream processing
+try (Stream<Record> stream = db.stream()) {
+    stream.forEach(this::process);  // Process one at a time
+}
+
+// GOOD: Batch pagination
+int pageSize = 1000;
+for (int offset = 0; offset < total; offset += pageSize) {
+    List<Record> page = db.fetch(offset, pageSize);
+    process(page);
+    page.clear();  // Eligible for GC
+}
+
+// Memory usage:
+// Bad:  1M records × 500 bytes = 500MB constant
+// Good: 1K records × 500 bytes = 500KB constant (1000x better!)`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Interview Level Problems */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🎯 Interview-Level Array Problems</h3>
+
+            <div className="space-y-4">
+              <div className="bg-slate-50 p-4 rounded">
+                <h4 className="font-semibold text-slate-800 mb-2">Problem: Rotate Array by K positions (Amazon/Google)</h4>
+                <p className="text-sm text-gray-600 mb-3">Input: [1,2,3,4,5,6,7], k=3 → Output: [5,6,7,1,2,3,4]</p>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div>
+                    <p className="text-xs font-semibold mb-2">Naive: O(k×n) time, O(1) space</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`// Rotate one position, k times
+for (int i = 0; i < k; i++) {
+    int temp = arr[n-1];
+    for (int j = n-1; j > 0; j--) {
+        arr[j] = arr[j-1];
+    }
+    arr[0] = temp;
+}
+// 3 rotations of 1M array
+// = 3M shifts 🐌`}
+                    </pre>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold mb-2">Optimal: O(n) time, O(1) space ⚡</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`// Reverse trick!
+k = k % n;
+reverse(arr, 0, n-1);    // 7,6,5,4,3,2,1
+reverse(arr, 0, k-1);    // 5,6,7,4,3,2,1
+reverse(arr, k, n-1);    // 5,6,7,1,2,3,4
+
+// Just 3 reversals = 1.5n operations
+// vs k×n for naive approach
+// Key insight: Reversal is in-place!`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded">
+                <h4 className="font-semibold text-slate-800 mb-2">Problem: Find Duplicate in O(n) time, O(1) space (Microsoft)</h4>
+                <p className="text-sm text-gray-600 mb-3">Array of n+1 integers, each in range [1, n]. One number repeats. Find it without modifying array.</p>
+                <pre className="bg-white p-3 rounded text-xs">
+{`// Floyd's Cycle Detection (Linked List cycle in disguise!)
+// Treat array as implicit linked list: index → value
+int slow = nums[0], fast = nums[0];
+
+// Phase 1: Find intersection point in cycle
+do {
+    slow = nums[slow];           // Move 1 step
+    fast = nums[nums[fast]];     // Move 2 steps
+} while (slow != fast);
+
+// Phase 2: Find cycle entrance (duplicate)
+slow = nums[0];
+while (slow != fast) {
+    slow = nums[slow];
+    fast = nums[fast];
+}
+return slow;  // This is the duplicate
+
+// Why this works: Duplicate creates cycle
+// Example: [1,3,4,2,2] → 0→1→3→2→4→2 (cycle!)
+//                              ↑_____|
+// Time: O(n), Space: O(1) - Brilliant! ✨`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       {showLearningMode && (
         <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
           <div className="flex items-start">

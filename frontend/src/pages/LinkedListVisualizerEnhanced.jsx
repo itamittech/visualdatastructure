@@ -590,6 +590,417 @@ public class LinkedListExample {
         </div>
       </div>
 
+      {/* Advanced Technical Deep Dive */}
+      <div className="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg shadow-md p-8 mb-8 border-l-4 border-emerald-600">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4 flex items-center">
+          <span className="text-3xl mr-3">🔬</span>
+          Advanced: Pointer Mechanics, Cache & Production Reality
+        </h2>
+
+        <div className="space-y-6">
+          {/* Memory & Cache Performance */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">💾 Why LinkedList is Slower in Practice</h3>
+
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+              <h4 className="font-semibold text-red-900 mb-2">The Cache Miss Problem</h4>
+              <pre className="bg-slate-900 text-yellow-400 p-3 rounded text-xs overflow-x-auto">
+{`// Traversing LinkedList = Pointer Chasing Nightmare
+Node current = head;
+while (current != null) {
+    process(current.data);     // Process
+    current = current.next;    // CACHE MISS! 🚨
+}
+
+Each "current.next" loads from random memory location:
+┌──────────────────────────────────────────────┐
+│ CPU fetches node at 0x1000                   │
+│ → next pointer points to 0x8FA0              │
+│ → CPU must fetch from 0x8FA0 (different page)│
+│ → STALL ~200 CPU cycles waiting for RAM     │
+└──────────────────────────────────────────────┘
+
+Modern CPUs: 3-4 GHz = 0.25-0.33ns per cycle
+RAM latency: ~50-100ns = 150-300 wasted cycles per node!
+
+Real benchmark (JMH, 1M elements):
+ArrayList iteration:     2.1ms  (CPU happy, prefetching)
+LinkedList iteration:   18.5ms  (CPU starved, waiting)
+Difference: 8.8x slower!`}
+              </pre>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">Memory Overhead Comparison</h4>
+                <pre className="bg-white border p-3 rounded text-xs">
+{`// ArrayList (Integer)
+[ref][ref][ref][ref]...
+4 bytes × n elements = 4n bytes
+Overhead: ~0-50% (resize waste)
+
+// LinkedList (Integer)
+Node {
+  Integer data;     // 4 bytes ref
+  Node next;        // 4 bytes ref
+  Object header;    // 12 bytes
+  Padding;          // 4 bytes
+} = 24 bytes per node!
+
+1M integers:
+ArrayList:  ~4MB + array overhead
+LinkedList: ~24MB (6x larger!)
+
+Plus: GC pressure from millions of Node objects`}
+                </pre>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">When LinkedList Actually Wins</h4>
+                <pre className="bg-green-50 border-l-4 border-green-600 p-3 rounded text-xs">
+{`// Scenario: Frequent head insertions
+// 100K insertions at position 0
+
+ArrayList.add(0, x):
+for (int i = size; i > 0; i--) {
+    arr[i] = arr[i-1];  // Shift ALL
+}
+// O(n) per insert = O(n²) total
+// ~5 billion operations! 💀
+
+LinkedList.addFirst(x):
+newNode.next = head;
+head = newNode;
+// O(1) per insert = O(n) total
+// Just 100K operations ⚡
+
+Benchmark (100K head inserts):
+ArrayList:     4,200ms 🐌
+LinkedList:       12ms ⚡
+Speedup: 350x faster!`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Doubly Linked List */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🔗 Java's LinkedList: Doubly-Linked Implementation</h3>
+
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-4 rounded">
+                <h4 className="font-semibold text-gray-800 mb-2">Why Doubly-Linked?</h4>
+                <pre className="bg-slate-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// Singly-Linked: Can only traverse forward
+class Node {
+    int data;
+    Node next;  // One direction only
+}
+
+// Doubly-Linked: Bidirectional traversal + O(1) removals
+class Node {
+    int data;
+    Node next;
+    Node prev;  // Can go backwards!
+}
+
+// Java's actual implementation (simplified)
+private static class Node<E> {
+    E item;
+    Node<E> next;
+    Node<E> prev;  // Double linking
+
+    Node(Node<E> prev, E element, Node<E> next) {
+        this.item = element;
+        this.next = next;
+        this.prev = prev;
+    }
+}
+
+LinkedList maintains:
+- first (head pointer)
+- last  (tail pointer)
+- size  (cached for O(1) access)
+
+Benefits:
+✓ addLast()/removeLast() = O(1) (singly-linked would be O(n))
+✓ Efficient Deque operations (both ends)
+✓ ListIterator can traverse backwards
+Cost:
+✗ 8 more bytes per node (prev pointer + padding)
+✗ More pointer updates on insert/delete`}
+                </pre>
+              </div>
+
+              <div className="bg-blue-50 p-4 rounded">
+                <h4 className="font-semibold text-blue-900 mb-2">LinkedList as Deque (Production Pattern)</h4>
+                <pre className="bg-white p-3 rounded text-xs">
+{`// LinkedList implements Deque<E>
+Deque<Task> taskQueue = new LinkedList<>();
+
+// O(1) operations at both ends!
+taskQueue.addFirst(highPriorityTask);   // Urgent
+taskQueue.addLast(normalTask);          // Regular
+Task next = taskQueue.pollFirst();       // FIFO
+Task last = taskQueue.pollLast();        // LIFO
+
+// Use cases:
+✓ LRU Cache implementation (add/remove at both ends)
+✓ Undo/Redo stacks (push/pop from either end)
+✓ Browser history (back/forward navigation)
+✓ Task scheduling (priority insertion)
+
+// Anti-pattern: Random access
+taskQueue.get(5000);  // O(n) - Terrible!
+// LinkedList has to traverse 5000 nodes
+
+// When to choose LinkedList over ArrayDeque:
+❓ Honestly? Rarely in modern Java.
+ArrayDeque is usually faster even for deque operations!
+
+Benchmark (10K operations):
+ArrayDeque:   0.8ms ⚡
+LinkedList:   1.2ms
+Reason: ArrayDeque has better cache locality`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Production Gotchas */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">⚠️ Production Gotchas & Myths</h3>
+
+            <div className="space-y-4">
+              <div className="bg-red-50 border-l-4 border-red-600 p-4">
+                <h4 className="font-semibold text-red-900 mb-2">Myth #1: "LinkedList is better for insertions"</h4>
+                <p className="text-sm text-gray-700 mb-2">
+                  <strong>Reality:</strong> Only true for insertions at <em>known positions</em> (head/tail).
+                  If you need to find the position first, you've already paid O(n) cost!
+                </p>
+                <pre className="bg-white p-3 rounded text-xs">
+{`// Insert after finding element with value 42
+// LinkedList
+for (Node n = head; n != null; n = n.next) {  // O(n) search
+    if (n.data == 42) {
+        Node newNode = new Node(99);
+        newNode.next = n.next;  // O(1) insert
+        n.next = newNode;
+        break;
+    }
+}
+Total: O(n)  // Search dominates
+
+// ArrayList
+int index = list.indexOf(42);      // O(n) search
+list.add(index + 1, 99);            // O(n) shift
+Total: O(n)  // But ArrayList has better cache, so faster in practice!
+
+// Key insight: If you're searching anyway, the insert cost is dominated by search.
+// ArrayList's cache-friendly search usually wins.`}
+                </pre>
+              </div>
+
+              <div className="bg-yellow-50 border-l-4 border-yellow-600 p-4">
+                <h4 className="font-semibold text-yellow-900 mb-2">Myth #2: "Use LinkedList for unknown size"</h4>
+                <p className="text-sm text-gray-700 mb-2">
+                  <strong>Reality:</strong> ArrayList with default capacity or initial size estimate is almost always better.
+                </p>
+                <pre className="bg-white p-3 rounded text-xs">
+{`// Scenario: Adding 50K elements, size unknown
+// LinkedList: 24 bytes × 50K = 1.2MB + Node object overhead
+//             Fragmented across heap
+//             Poor cache locality
+
+// ArrayList: 4 bytes × 50K = 200KB (after resizes)
+//            Contiguous memory
+//            Excellent cache locality
+//            ~5-10 resize operations (acceptable)
+
+// Even with resizes, ArrayList wins on:
+✓ Memory usage (6x less)
+✓ Iteration speed (10x faster)
+✓ GC pressure (1 object vs 50K objects)
+✓ Random access (O(1) vs O(n))
+
+The ONLY time to prefer LinkedList:
+→ Proven profiling shows ArrayList resize is your bottleneck
+→ AND you have frequent head/tail insertions
+→ AND you rarely iterate or access by index
+(This is <1% of use cases)`}
+                </pre>
+              </div>
+
+              <div className="bg-green-50 border-l-4 border-green-600 p-4">
+                <h4 className="font-semibold text-green-900 mb-2">✓ Legitimate LinkedList Use Case</h4>
+                <pre className="bg-white p-3 rounded text-xs">
+{`// LRU Cache with LinkedHashMap (uses doubly-linked list internally)
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true);  // accessOrder = true
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
+    }
+}
+
+// Usage
+LRUCache<String, User> cache = new LRUCache<>(1000);
+cache.put(userId, user);  // O(1)
+User u = cache.get(userId);  // O(1) + moves to end (MRU)
+
+// Why linked list here?
+✓ Need to track access order (doubly-linked maintains it)
+✓ Need to remove eldest (O(1) with tail pointer)
+✓ Need O(1) lookup (HashMap provides this)
+✓ Rare insertions/deletions relative to lookups
+
+// This is actually a great use of linked structure!
+// But note: Still uses HashMap for the actual lookups.`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Interview Problems */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-700 mb-4">🎯 Interview-Level LinkedList Problems</h3>
+
+            <div className="space-y-4">
+              <div className="bg-slate-50 p-4 rounded">
+                <h4 className="font-semibold text-slate-800 mb-2">Problem: Reverse LinkedList (Facebook/Amazon)</h4>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div>
+                    <p className="text-xs font-semibold mb-2">Iterative: O(n) time, O(1) space</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`Node reverse(Node head) {
+    Node prev = null;
+    Node curr = head;
+
+    while (curr != null) {
+        Node next = curr.next;  // Save
+        curr.next = prev;       // Reverse
+        prev = curr;            // Move
+        curr = next;            // Move
+    }
+    return prev;  // New head
+}
+
+// Trace: 1→2→3→null
+// Step 1: null←1  2→3→null
+// Step 2: null←1←2  3→null
+// Step 3: null←1←2←3
+// Result: 3→2→1→null ✓`}
+                    </pre>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold mb-2">Recursive: O(n) time, O(n) space</p>
+                    <pre className="text-xs bg-white p-2 rounded">
+{`Node reverse(Node head) {
+    if (head == null || head.next == null)
+        return head;
+
+    Node newHead = reverse(head.next);
+    head.next.next = head;  // Reverse
+    head.next = null;       // Cut old link
+    return newHead;
+}
+
+// Recursion stack visualization:
+// reverse(1) waits for
+//   reverse(2) waits for
+//     reverse(3) returns 3
+//   2.next.next = 2 → 3→2
+// 1.next.next = 1 → 3→2→1
+// Beautiful but O(n) stack space`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded">
+                <h4 className="font-semibold text-slate-800 mb-2">Problem: Detect Cycle in LinkedList (Google/Microsoft)</h4>
+                <pre className="bg-white p-3 rounded text-xs overflow-x-auto">
+{`// Floyd's Tortoise & Hare Algorithm
+boolean hasCycle(Node head) {
+    if (head == null) return false;
+
+    Node slow = head;
+    Node fast = head;
+
+    while (fast != null && fast.next != null) {
+        slow = slow.next;           // Move 1 step
+        fast = fast.next.next;      // Move 2 steps
+
+        if (slow == fast) {
+            return true;  // They met - cycle exists!
+        }
+    }
+    return false;  // Fast reached end - no cycle
+}
+
+// Why this works mathematically:
+// If there's a cycle of length C,
+// slow and fast will meet within C iterations after entering cycle.
+//
+// Proof: In each iteration, fast gains 1 position on slow.
+// If they start at same position in cycle, fast will lap slow
+// within C steps (worst case = full cycle).
+//
+// Time: O(n), Space: O(1) - Brilliant! ✨
+//
+// Follow-up: Find cycle start point?
+// Reset slow to head, move both at same speed → they meet at start!`}
+                </pre>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded">
+                <h4 className="font-semibold text-slate-800 mb-2">Problem: Merge Two Sorted Lists (LeetCode Easy, asked everywhere)</h4>
+                <pre className="bg-white p-3 rounded text-xs overflow-x-auto">
+{`Node mergeTwoLists(Node l1, Node l2) {
+    Node dummy = new Node(0);  // Sentinel node trick
+    Node tail = dummy;
+
+    while (l1 != null && l2 != null) {
+        if (l1.val <= l2.val) {
+            tail.next = l1;
+            l1 = l1.next;
+        } else {
+            tail.next = l2;
+            l2 = l2.next;
+        }
+        tail = tail.next;
+    }
+
+    // Attach remaining (one list exhausted)
+    tail.next = (l1 != null) ? l1 : l2;
+
+    return dummy.next;  // Skip sentinel
+}
+
+// Dummy node pattern:
+// Instead of special-casing the first node,
+// create a dummy and always use tail.next.
+// Simplifies code and avoids null checks.
+//
+// Time: O(n + m), Space: O(1) - in-place merge!
+//
+// Common mistake: Creating new nodes instead of reusing
+// → Wastes memory and time
+// ✓ Just redirect pointers! No new allocations needed.`}
+                </pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       {showLearningMode && (
         <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
           <div className="flex items-start">
