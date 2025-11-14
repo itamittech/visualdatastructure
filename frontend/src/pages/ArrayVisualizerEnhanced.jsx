@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import ComplexityInfo from '../components/ComplexityInfo'
 import CodeDisplay from '../components/CodeDisplay'
 import OperationVisualizer from '../components/OperationVisualizer'
+import JavaListImplementations from '../components/JavaListImplementations'
 import {
   generateArraySearchSteps,
   generateArrayInsertSteps,
@@ -546,6 +547,25 @@ public class ArrayExample {
       </div>
 
       <ComplexityInfo data={complexityData} />
+
+      {/* Java List Implementations - All types explained */}
+      <div className="mt-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Java List Implementations - Complete Guide
+        </h2>
+        <p className="text-gray-600 mb-6 text-lg">
+          Arrays and Lists are fundamental in Java. Below you'll find ALL Java List implementations,
+          including ArrayList, LinkedList, Vector, CopyOnWriteArrayList, and more. Learn when to use
+          each one, including new Java 21 features!
+        </p>
+        <JavaListImplementations />
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Detailed Code Comparison
+        </h2>
+      </div>
 
       <div className="grid lg:grid-cols-2 gap-6 mt-6">
         <CodeDisplay

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import ComplexityInfo from '../components/ComplexityInfo'
 import CodeDisplay from '../components/CodeDisplay'
-import ComplexityEducation from '../components/ComplexityEducation'
 import OperationVisualizer from '../components/OperationVisualizer'
+import JavaListImplementations from '../components/JavaListImplementations'
 import {
   generateLinkedListSearchSteps,
   generateLinkedListInsertBeginningSteps
@@ -647,6 +648,25 @@ public class LinkedListExample {
       </div>
 
       <ComplexityInfo data={complexityData} />
+
+      {/* Java List Implementations - LinkedList is also a List! */}
+      <div className="mt-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Java List Implementations - Complete Guide
+        </h2>
+        <p className="text-gray-600 mb-6 text-lg">
+          LinkedList is one of Java's List implementations! Below you'll find ALL List types including
+          ArrayList vs LinkedList comparison, Deque operations, Vector, CopyOnWriteArrayList, and Java 21
+          Sequenced Collections features.
+        </p>
+        <JavaListImplementations />
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Detailed Code Comparison
+        </h2>
+      </div>
 
       <div className="grid lg:grid-cols-2 gap-6 mt-6">
         <CodeDisplay

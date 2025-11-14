@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import ComplexityInfo from '../components/ComplexityInfo'
 import CodeDisplay from '../components/CodeDisplay'
-import ComplexityEducation from '../components/ComplexityEducation'
 import OperationVisualizer from '../components/OperationVisualizer'
+import JavaSetImplementations from '../components/JavaSetImplementations'
 import { generateSetAddSteps } from '../utils/operationSteps'
 
 function SetVisualizerEnhanced() {
@@ -472,6 +473,15 @@ public class SetExample {
 
   return (
     <div className="max-w-7xl mx-auto">
+      {/* Breadcrumb Navigation */}
+      <div className="mb-4 text-sm text-gray-600">
+        <Link to="/" className="hover:text-blue-600">Home</Link>
+        <span className="mx-2">→</span>
+        <Link to="/linkedlist" className="hover:text-blue-600">Linked List</Link>
+        <span className="mx-2">→</span>
+        <span className="text-gray-800 font-semibold">Hash Set</span>
+      </div>
+
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-bold text-gray-800">Hash Set - Deep Dive</h1>
         <button
@@ -502,9 +512,6 @@ public class SetExample {
           </div>
         </div>
       )}
-
-      {/* Complexity Education */}
-      <ComplexityEducation />
 
       {/* Step-by-step Visualizer */}
       {operationSteps && (
@@ -647,6 +654,19 @@ public class SetExample {
         />
       </div>
 
+      {/* Java Set Implementations - Complete Guide */}
+      <div className="mt-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Java Set Implementations - Complete Guide
+        </h2>
+        <p className="text-gray-600 mb-6 text-lg">
+          Sets come in many flavors in Java! Below you'll find ALL Set implementations including
+          HashSet, LinkedHashSet, TreeSet, EnumSet, CopyOnWriteArraySet, and more. Learn when to use
+          each one, including NavigableSet operations and Java 21 SequencedSet features!
+        </p>
+        <JavaSetImplementations />
+      </div>
+
       {/* Why Sets Are Amazing */}
       <div className="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-md p-6">
         <h3 className="text-xl font-bold text-purple-600 mb-4">🚀 Why Hash Sets Are Game-Changers</h3>
@@ -697,6 +717,25 @@ public class SetExample {
               <span className="text-green-600 font-bold">~1 hash calculation 🚀</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Navigation Footer */}
+      <div className="mt-12 flex justify-between items-center border-t pt-6">
+        <Link
+          to="/linkedlist"
+          className="flex items-center text-blue-600 hover:text-blue-700 font-semibold"
+        >
+          <span className="mr-2">←</span> Previous: Linked List
+        </Link>
+        <Link
+          to="/complexity"
+          className="text-gray-600 hover:text-gray-700"
+        >
+          Review Complexity Guide
+        </Link>
+        <div className="text-gray-400">
+          End of Learning Path
         </div>
       </div>
     </div>
