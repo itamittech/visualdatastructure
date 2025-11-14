@@ -470,6 +470,126 @@ public class LinkedListExample {
         </button>
       </div>
 
+      {/* Theory Section */}
+      <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg shadow-md p-8 mb-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">What is a Linked List?</h2>
+
+        <div className="space-y-4 text-gray-700">
+          <p className="text-lg leading-relaxed">
+            A <strong>linked list</strong> is a linear data structure where elements (called <strong>nodes</strong>) are NOT stored in contiguous memory.
+            Instead, each node contains data and a <strong>pointer (reference)</strong> to the next node, forming a chain.
+          </p>
+
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-green-700 mb-3">🔗 Key Characteristics</h3>
+            <ul className="space-y-2">
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Node-Based Structure:</strong> Each node contains: (1) data value, (2) pointer to next node.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Dynamic Size:</strong> Can grow/shrink easily - just update pointers! No need to resize like arrays.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Non-Contiguous Memory:</strong> Nodes can be scattered anywhere in memory, connected by pointers.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>O(1) Insert/Delete at Beginning:</strong> Just update the head pointer - no shifting needed!</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Sequential Access:</strong> Must traverse from head to reach any element - no random access.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-emerald-100 rounded-lg p-5">
+            <h4 className="font-bold text-emerald-900 mb-3">📊 Linked List vs Array - The Trade-offs</h4>
+            <div className="grid md:grid-cols-2 gap-4 text-sm">
+              <div className="bg-white rounded p-3">
+                <strong className="text-green-700">✓ Linked List Wins:</strong>
+                <ul className="mt-2 space-y-1 text-gray-700">
+                  <li>• Insert at beginning: O(1) vs O(n)</li>
+                  <li>• Delete at beginning: O(1) vs O(n)</li>
+                  <li>• Dynamic size: Easy vs Expensive</li>
+                  <li>• No wasted space from pre-allocation</li>
+                </ul>
+              </div>
+              <div className="bg-white rounded p-3">
+                <strong className="text-red-700">✗ Array Wins:</strong>
+                <ul className="mt-2 space-y-1 text-gray-700">
+                  <li>• Access by index: O(n) vs O(1)</li>
+                  <li>• Memory locality: Poor vs Excellent</li>
+                  <li>• Cache performance: Worse vs Better</li>
+                  <li>• Memory overhead: Higher (pointers) vs Lower</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-green-50 rounded-lg p-5 border-l-4 border-green-500">
+              <h4 className="font-bold text-green-800 mb-2">✓ When to Use Linked Lists</h4>
+              <ul className="space-y-1 text-sm text-gray-700">
+                <li>• Frequent insertions/deletions at beginning or middle</li>
+                <li>• Don\'t know size in advance and it changes a lot</li>
+                <li>• Implementing stacks, queues, or adjacency lists (graphs)</li>
+                <li>• Rarely need random access by index</li>
+                <li>• Want to avoid the cost of array resizing</li>
+              </ul>
+            </div>
+
+            <div className="bg-red-50 rounded-lg p-5 border-l-4 border-red-500">
+              <h4 className="font-bold text-red-800 mb-2">✗ When NOT to Use Linked Lists</h4>
+              <ul className="space-y-1 text-sm text-gray-700">
+                <li>• Need fast random access by index (use ArrayList)</li>
+                <li>• Memory is very limited (extra pointer overhead)</li>
+                <li>• Mainly iterating sequentially (array cache-friendly)</li>
+                <li>• Need to frequently access middle elements</li>
+                <li>• Binary search or sorted operations (TreeSet better)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 rounded-lg p-5 border-l-4 border-yellow-500">
+            <h4 className="font-bold text-yellow-800 mb-2">💡 Real-World Examples</h4>
+            <div className="grid md:grid-cols-3 gap-3 mt-3 text-sm">
+              <div>
+                <strong className="text-gray-800">Browser History:</strong>
+                <p className="text-gray-600 mt-1">Back/forward buttons - doubly linked list allows easy navigation both directions</p>
+              </div>
+              <div>
+                <strong className="text-gray-800">Music Playlist:</strong>
+                <p className="text-gray-600 mt-1">Next/previous songs, easy to add/remove songs without shifting</p>
+              </div>
+              <div>
+                <strong className="text-gray-800">Undo/Redo:</strong>
+                <p className="text-gray-600 mt-1">Text editors maintain action history as linked list of states</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-blue-100 rounded-lg p-5">
+            <h4 className="font-bold text-blue-900 mb-2">🎯 Why Pointers Change Everything</h4>
+            <p className="text-gray-700">
+              The key insight: To insert at the <strong>beginning of a linked list</strong>, you only need to:
+              <br/>
+              <code className="bg-white px-2 py-1 rounded font-mono block mt-2">
+                newNode.next = head; // Point new node to current head<br/>
+                head = newNode;      // Update head to new node
+              </code>
+              <br/>
+              That\'s it! <strong>O(1)</strong> - just two pointer updates, no matter how big the list is!
+              <br/><br/>
+              Compare to array: Insert at beginning requires shifting ALL n elements → O(n)
+            </p>
+          </div>
+        </div>
+      </div>
+
       {showLearningMode && (
         <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
           <div className="flex items-start">
@@ -486,9 +606,6 @@ public class LinkedListExample {
           </div>
         </div>
       )}
-
-      {/* Complexity Education */}
-      <ComplexityEducation />
 
       {/* Step-by-step Visualizer */}
       {operationSteps && (

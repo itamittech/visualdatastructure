@@ -394,6 +394,97 @@ public class ArrayExample {
         </div>
       </div>
 
+      {/* Theory Section */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-md p-8 mb-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">What is an Array?</h2>
+
+        <div className="space-y-4 text-gray-700">
+          <p className="text-lg leading-relaxed">
+            An <strong>array</strong> is a fundamental data structure that stores elements in <strong>contiguous memory locations</strong>.
+            Think of it as a row of numbered boxes, where each box holds one value and has a unique index (position number).
+          </p>
+
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-indigo-700 mb-3">🔑 Key Characteristics</h3>
+            <ul className="space-y-2">
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Fixed Size (Static Arrays):</strong> Once created, size cannot change. Java arrays are fixed-size.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Dynamic Arrays (ArrayList):</strong> Can grow/shrink automatically by creating new larger arrays internally.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Indexed Access:</strong> Access any element directly using its index in O(1) time.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Contiguous Memory:</strong> Elements stored in adjacent memory locations for cache efficiency.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 font-bold mr-2">✓</span>
+                <span><strong>Same Type:</strong> All elements must be of the same data type (homogeneous).</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-green-50 rounded-lg p-5 border-l-4 border-green-500">
+              <h4 className="font-bold text-green-800 mb-2">✓ When to Use Arrays</h4>
+              <ul className="space-y-1 text-sm text-gray-700">
+                <li>• You need fast random access by index (O(1))</li>
+                <li>• You know the size in advance or it doesn't change often</li>
+                <li>• You're iterating through all elements sequentially</li>
+                <li>• Memory locality matters (cache-friendly)</li>
+                <li>• Implementing other data structures (stacks, queues, heaps)</li>
+              </ul>
+            </div>
+
+            <div className="bg-red-50 rounded-lg p-5 border-l-4 border-red-500">
+              <h4 className="font-bold text-red-800 mb-2">✗ When NOT to Use Arrays</h4>
+              <ul className="space-y-1 text-sm text-gray-700">
+                <li>• Frequent insertions/deletions in middle (O(n) shifting)</li>
+                <li>• Size changes frequently and unpredictably</li>
+                <li>• Need fast insert at beginning (O(n) to shift all)</li>
+                <li>• Memory is severely constrained and size varies greatly</li>
+                <li>• Need to frequently search unsorted data (O(n))</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 rounded-lg p-5 border-l-4 border-yellow-500">
+            <h4 className="font-bold text-yellow-800 mb-2">💡 Real-World Examples</h4>
+            <div className="grid md:grid-cols-3 gap-3 mt-3 text-sm">
+              <div>
+                <strong className="text-gray-800">Static Arrays:</strong>
+                <p className="text-gray-600 mt-1">Days of week, months, chess board (8×8), fixed configuration settings</p>
+              </div>
+              <div>
+                <strong className="text-gray-800">Dynamic Arrays:</strong>
+                <p className="text-gray-600 mt-1">Shopping cart items, user list, chat messages, image pixels</p>
+              </div>
+              <div>
+                <strong className="text-gray-800">Performance Critical:</strong>
+                <p className="text-gray-600 mt-1">Game entity positions, sensor readings, financial time series</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-indigo-100 rounded-lg p-5">
+            <h4 className="font-bold text-indigo-900 mb-2">🎯 The Power of Index-Based Access</h4>
+            <p className="text-gray-700">
+              Arrays excel because of <strong>direct addressing</strong>. If you know an element's index, you can access it
+              instantly using the formula: <code className="bg-white px-2 py-1 rounded font-mono">memory_address = base_address + (index × element_size)</code>
+              <br/><br/>
+              This is why accessing <code className="bg-white px-1 rounded">arr[0]</code> and <code className="bg-white px-1 rounded">arr[1000000]</code>
+              take the <strong>exact same time</strong> - just one calculation!
+            </p>
+          </div>
+        </div>
+      </div>
+
       {showLearningMode && (
         <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
           <div className="flex items-start">

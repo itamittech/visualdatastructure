@@ -496,6 +496,151 @@ public class SetExample {
         </button>
       </div>
 
+      {/* Theory Section */}
+      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg shadow-md p-8 mb-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">What is a Hash Set?</h2>
+
+        <div className="space-y-4 text-gray-700">
+          <p className="text-lg leading-relaxed">
+            A <strong>hash set</strong> is a data structure that stores <strong>unique elements</strong> using a <strong>hash table</strong> for lightning-fast lookups.
+            It uses a <strong>hash function</strong> to calculate where to store each element, enabling O(1) average time for add, remove, and contains operations.
+          </p>
+
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-purple-700 mb-3">🔑 Key Characteristics</h3>
+            <ul className="space-y-2">
+              <li className="flex items-start">
+                <span className="text-purple-600 font-bold mr-2">✓</span>
+                <span><strong>Unique Elements Only:</strong> Duplicates are automatically rejected - each value can appear at most once.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-purple-600 font-bold mr-2">✓</span>
+                <span><strong>Hash-Based Storage:</strong> Uses hash function to calculate bucket index: <code className="bg-gray-100 px-1">index = hash(value) % capacity</code></span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-purple-600 font-bold mr-2">✓</span>
+                <span><strong>O(1) Average Operations:</strong> Add, remove, and contains are all constant time on average!</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-purple-600 font-bold mr-2">✓</span>
+                <span><strong>No Order Guarantee:</strong> Elements are stored by hash value, not insertion order (use LinkedHashSet for order).</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-purple-600 font-bold mr-2">✓</span>
+                <span><strong>Collision Handling:</strong> When two elements hash to same bucket, use chaining (linked list) or probing.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-purple-100 rounded-lg p-5">
+            <h4 className="font-bold text-purple-900 mb-3">🎯 How Hash Functions Enable O(1) Lookup</h4>
+            <p className="text-gray-700 mb-3">
+              The magic of sets comes from <strong>direct addressing</strong> via hash functions:
+            </p>
+            <div className="bg-white rounded p-4 font-mono text-sm">
+              <div className="space-y-1">
+                <div><span className="text-gray-500">// Example: Adding value 42</span></div>
+                <div><span className="text-blue-600">hash</span> = 42.hashCode() = 42</div>
+                <div><span className="text-blue-600">index</span> = hash % capacity = 42 % 16 = <strong className="text-green-600">10</strong></div>
+                <div><span className="text-gray-500">// Store in bucket[10]</span></div>
+                <div className="mt-2"><span className="text-gray-500">// Later: Checking if 42 exists</span></div>
+                <div><span className="text-blue-600">index</span> = 42 % 16 = <strong className="text-green-600">10</strong></div>
+                <div><span className="text-gray-500">// Check only bucket[10] - not all buckets!</span></div>
+              </div>
+            </div>
+            <p className="text-gray-700 mt-3">
+              <strong>Compare to Array Search:</strong> Must check each element until found (O(n))<br/>
+              <strong>Hash Set Search:</strong> Calculate bucket, check only that bucket (O(1) average)
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-green-50 rounded-lg p-5 border-l-4 border-green-500">
+              <h4 className="font-bold text-green-800 mb-2">✓ When to Use Hash Sets</h4>
+              <ul className="space-y-1 text-sm text-gray-700">
+                <li>• Need to check if element exists (O(1) vs O(n) for arrays)</li>
+                <li>• Remove duplicates from a collection</li>
+                <li>• Track visited/seen elements (like in graph algorithms)</li>
+                <li>• Fast membership testing is critical</li>
+                <li>• Set operations: union, intersection, difference</li>
+              </ul>
+            </div>
+
+            <div className="bg-red-50 rounded-lg p-5 border-l-4 border-red-500">
+              <h4 className="font-bold text-red-800 mb-2">✗ When NOT to Use Hash Sets</h4>
+              <ul className="space-y-1 text-sm text-gray-700">
+                <li>• Need sorted elements (use TreeSet instead)</li>
+                <li>• Need to maintain insertion order (use LinkedHashSet)</li>
+                <li>• Need duplicates allowed (use List instead)</li>
+                <li>• Need index-based access (use ArrayList)</li>
+                <li>• Working with enums (use EnumSet - much faster)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 rounded-lg p-5 border-l-4 border-yellow-500">
+            <h4 className="font-bold text-yellow-800 mb-2">💡 Real-World Examples</h4>
+            <div className="grid md:grid-cols-3 gap-3 mt-3 text-sm">
+              <div>
+                <strong className="text-gray-800">Duplicate Detection:</strong>
+                <p className="text-gray-600 mt-1">Find duplicates in array: O(n) with set vs O(n²) with nested loops</p>
+              </div>
+              <div>
+                <strong className="text-gray-800">Unique Visitors:</strong>
+                <p className="text-gray-600 mt-1">Track unique user IDs, IP addresses - automatic deduplication</p>
+              </div>
+              <div>
+                <strong className="text-gray-800">Graph Algorithms:</strong>
+                <p className="text-gray-600 mt-1">Track visited nodes in BFS/DFS to avoid cycles</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-red-50 rounded-lg p-5 border-l-4 border-red-500">
+            <h4 className="font-bold text-red-900 mb-2">⚠️ Understanding Collisions</h4>
+            <p className="text-gray-700">
+              <strong>Collision:</strong> When two different values hash to the same bucket index.<br/>
+              Example: <code className="bg-white px-1">hash(42) % 8 = 2</code> and <code className="bg-white px-1">hash(50) % 8 = 2</code><br/><br/>
+
+              <strong>Solution - Separate Chaining:</strong> Each bucket stores a linked list of all values that hash there.<br/>
+              • Best case: Each bucket has 0-1 elements → O(1)<br/>
+              • Worst case: All elements in one bucket → O(n) (rare with good hash function)<br/>
+              • Average case with good distribution: O(1)<br/><br/>
+
+              <strong>Load Factor:</strong> When set becomes too full (size/capacity &gt; 0.75), the set automatically <strong>resizes and rehashes</strong> all elements to maintain O(1) performance!
+            </p>
+          </div>
+
+          <div className="bg-blue-50 rounded-lg p-5">
+            <h4 className="font-bold text-blue-900 mb-2">🚀 Performance Comparison</h4>
+            <div className="space-y-2 text-sm font-mono">
+              <div className="flex justify-between bg-white p-2 rounded">
+                <span>Check if element exists in 1,000 items:</span>
+              </div>
+              <div className="flex justify-between pl-4">
+                <span>• Array (unsorted):</span>
+                <span className="text-red-600 font-bold">~500 comparisons (O(n))</span>
+              </div>
+              <div className="flex justify-between pl-4">
+                <span>• Hash Set:</span>
+                <span className="text-green-600 font-bold">~1-2 operations (O(1)) ⚡</span>
+              </div>
+              <div className="flex justify-between bg-white p-2 rounded mt-2">
+                <span>Remove duplicates from 10,000 items:</span>
+              </div>
+              <div className="flex justify-between pl-4">
+                <span>• Nested loops:</span>
+                <span className="text-red-600 font-bold">~50M comparisons (O(n²)) 🐌</span>
+              </div>
+              <div className="flex justify-between pl-4">
+                <span>• Hash Set:</span>
+                <span className="text-green-600 font-bold">~10K operations (O(n)) 🚀</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {showLearningMode && (
         <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-6">
           <div className="flex items-start">
