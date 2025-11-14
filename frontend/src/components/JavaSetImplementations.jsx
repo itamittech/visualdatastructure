@@ -89,7 +89,7 @@ LinkedHashSet<String> accessOrder = new LinkedHashSet<>();
       type: 'Red-Black Tree (NavigableSet)',
       since: 'Java 1.2',
       bestFor: 'Sorted data, range queries, navigation',
-      avoid: 'When you don't need sorting (use HashSet)',
+      avoid: 'When you don\'t need sorting (use HashSet)',
       threadSafe: false,
       ordered: true,
       sorted: true,
