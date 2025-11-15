@@ -5,6 +5,7 @@ import LinkedListVisualizerEnhanced from './pages/LinkedListVisualizerEnhanced'
 import SetVisualizerEnhanced from './pages/SetVisualizerEnhanced'
 import StackVisualizerEnhanced from './pages/StackVisualizerEnhanced'
 import QueueVisualizerEnhanced from './pages/QueueVisualizerEnhanced'
+import HashMapVisualizerEnhanced from './pages/HashMapVisualizerEnhanced'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -41,6 +42,9 @@ function App() {
                 <Link to="/queue" className="hover:bg-blue-700 px-3 py-2 rounded">
                   Queue
                 </Link>
+                <Link to="/hashmap" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  HashMap
+                </Link>
               </div>
             </div>
           </div>
@@ -56,6 +60,7 @@ function App() {
             <Route path="/set" element={<SetVisualizerEnhanced />} />
             <Route path="/stack" element={<StackVisualizerEnhanced />} />
             <Route path="/queue" element={<QueueVisualizerEnhanced />} />
+            <Route path="/hashmap" element={<HashMapVisualizerEnhanced />} />
           </Routes>
         </main>
       </div>
