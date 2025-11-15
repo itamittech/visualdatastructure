@@ -10,6 +10,7 @@ import BinaryTreeVisualizerEnhanced from './pages/BinaryTreeVisualizerEnhanced'
 import HeapVisualizerEnhanced from './pages/HeapVisualizerEnhanced'
 import GraphVisualizerEnhanced from './pages/GraphVisualizerEnhanced'
 import TrieVisualizerEnhanced from './pages/TrieVisualizerEnhanced'
+import SortingVisualizerEnhanced from './pages/SortingVisualizerEnhanced'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -61,6 +62,9 @@ function App() {
                 <Link to="/trie" className="hover:bg-blue-700 px-3 py-2 rounded">
                   Trie
                 </Link>
+                <Link to="/sorting" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Sorting
+                </Link>
               </div>
             </div>
           </div>
@@ -81,6 +85,7 @@ function App() {
             <Route path="/heap" element={<HeapVisualizerEnhanced />} />
             <Route path="/graph" element={<GraphVisualizerEnhanced />} />
             <Route path="/trie" element={<TrieVisualizerEnhanced />} />
+            <Route path="/sorting" element={<SortingVisualizerEnhanced />} />
           </Routes>
         </main>
       </div>
