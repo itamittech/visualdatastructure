@@ -17,6 +17,7 @@ import DynamicProgrammingVisualizer from './pages/DynamicProgrammingVisualizer'
 import BacktrackingVisualizer from './pages/BacktrackingVisualizer'
 import TwoPointersVisualizer from './pages/TwoPointersVisualizer'
 import UnionFindVisualizer from './pages/UnionFindVisualizer'
+import GreedyAlgorithmsVisualizer from './pages/GreedyAlgorithmsVisualizer'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -68,6 +69,7 @@ function App() {
             <Route path="/backtracking" element={<BacktrackingVisualizer />} />
             <Route path="/two-pointers" element={<TwoPointersVisualizer />} />
             <Route path="/union-find" element={<UnionFindVisualizer />} />
+            <Route path="/greedy" element={<GreedyAlgorithmsVisualizer />} />
           </Routes>
         </main>
       </div>

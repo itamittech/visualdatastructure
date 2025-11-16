@@ -192,6 +192,16 @@ function Home() {
       color: 'from-emerald-500 to-teal-600',
       borderColor: 'border-emerald-500',
       time: '30 min'
+    },
+    {
+      step: 20,
+      title: 'Greedy Algorithms',
+      description: 'Make locally optimal choices for global optimum! Master Jump Game, Gas Station, Intervals. Essential for 4-5% of interviews!',
+      path: '/greedy',
+      icon: '🎯',
+      color: 'from-green-500 to-lime-600',
+      borderColor: 'border-green-500',
+      time: '35 min'
     }
   ]
 

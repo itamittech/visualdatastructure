@@ -101,6 +101,9 @@ function Introduction() {
                 <div className="bg-emerald-50 px-3 py-2 rounded">
                   <Link to="/union-find" className="text-emerald-700 hover:text-emerald-900 font-semibold">Union-Find (Disjoint Set)</Link>
                 </div>
+                <div className="bg-green-50 px-3 py-2 rounded">
+                  <Link to="/greedy" className="text-green-700 hover:text-green-900 font-semibold">Greedy Algorithms</Link>
+                </div>
               </div>
             </div>
           </div>
