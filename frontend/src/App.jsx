@@ -13,6 +13,7 @@ import TrieVisualizerEnhanced from './pages/TrieVisualizerEnhanced'
 import SortingVisualizerEnhanced from './pages/SortingVisualizerEnhanced'
 import SearchingVisualizerEnhanced from './pages/SearchingVisualizerEnhanced'
 import LRUCacheVisualizerEnhanced from './pages/LRUCacheVisualizerEnhanced'
+import DynamicProgrammingVisualizer from './pages/DynamicProgrammingVisualizer'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -60,6 +61,7 @@ function App() {
             <Route path="/sorting" element={<SortingVisualizerEnhanced />} />
             <Route path="/searching" element={<SearchingVisualizerEnhanced />} />
             <Route path="/lru-cache" element={<LRUCacheVisualizerEnhanced />} />
+            <Route path="/dynamic-programming" element={<DynamicProgrammingVisualizer />} />
           </Routes>
         </main>
       </div>

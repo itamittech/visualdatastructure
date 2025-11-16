@@ -152,6 +152,16 @@ function Home() {
       color: 'from-sky-500 to-sky-600',
       borderColor: 'border-sky-500',
       time: '30 min'
+    },
+    {
+      step: 16,
+      title: 'Dynamic Programming',
+      description: 'Master the #1 interview topic! Turn O(2ⁿ) into O(n). Covers 30% of FAANG coding questions!',
+      path: '/dynamic-programming',
+      icon: '🎯',
+      color: 'from-amber-500 to-amber-600',
+      borderColor: 'border-amber-500',
+      time: '45 min'
     }
   ]
 
@@ -360,6 +370,15 @@ function Home() {
             <div className="text-3xl mb-2">🔍</div>
             <h3 className="text-lg font-bold text-gray-800 mb-1">Searching</h3>
             <p className="text-sm text-gray-600">O(n) to O(log n)</p>
+          </Link>
+
+          <Link
+            to="/dynamic-programming"
+            className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-amber-200"
+          >
+            <div className="text-3xl mb-2">🎯</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Dynamic Programming</h3>
+            <p className="text-sm text-gray-600">O(2ⁿ) → O(n)</p>
           </Link>
 
           <Link
