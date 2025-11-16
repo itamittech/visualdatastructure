@@ -52,6 +52,86 @@ function Home() {
       color: 'from-orange-500 to-orange-600',
       borderColor: 'border-orange-500',
       time: '20 min'
+    },
+    {
+      step: 6,
+      title: 'Stack',
+      description: 'LIFO structure, O(1) push/pop. Essential for recursion, backtracking, and expression parsing!',
+      path: '/stack',
+      icon: '📚',
+      color: 'from-red-500 to-red-600',
+      borderColor: 'border-red-500',
+      time: '20 min'
+    },
+    {
+      step: 7,
+      title: 'Queue',
+      description: 'FIFO structure, O(1) enqueue/dequeue. Perfect for BFS, task scheduling, and buffering!',
+      path: '/queue',
+      icon: '🚶',
+      color: 'from-pink-500 to-pink-600',
+      borderColor: 'border-pink-500',
+      time: '20 min'
+    },
+    {
+      step: 8,
+      title: 'Hash Map',
+      description: 'Key-value pairs with O(1) lookup. The backbone of modern databases and caching!',
+      path: '/hashmap',
+      icon: '🗺️',
+      color: 'from-indigo-500 to-indigo-600',
+      borderColor: 'border-indigo-500',
+      time: '25 min'
+    },
+    {
+      step: 9,
+      title: 'Binary Tree',
+      description: 'Hierarchical structure, O(log n) search in BST. Learn tree traversals and balancing!',
+      path: '/tree',
+      icon: '🌲',
+      color: 'from-teal-500 to-teal-600',
+      borderColor: 'border-teal-500',
+      time: '30 min'
+    },
+    {
+      step: 10,
+      title: 'Heap (Priority Queue)',
+      description: 'O(1) min/max access, O(log n) insert. Essential for scheduling and graph algorithms!',
+      path: '/heap',
+      icon: '⛰️',
+      color: 'from-cyan-500 to-cyan-600',
+      borderColor: 'border-cyan-500',
+      time: '30 min'
+    },
+    {
+      step: 11,
+      title: 'Graph',
+      description: 'Networks of vertices and edges. Master BFS, DFS, Dijkstra, and topological sort!',
+      path: '/graph',
+      icon: '🕸️',
+      color: 'from-lime-500 to-lime-600',
+      borderColor: 'border-lime-500',
+      time: '35 min'
+    },
+    {
+      step: 12,
+      title: 'Trie (Prefix Tree)',
+      description: 'Efficient string operations. Perfect for autocomplete, spell checking, and IP routing!',
+      path: '/trie',
+      icon: '🌿',
+      color: 'from-emerald-500 to-emerald-600',
+      borderColor: 'border-emerald-500',
+      time: '30 min'
+    },
+    {
+      step: 13,
+      title: 'Sorting Algorithms',
+      description: 'Master O(n²), O(n log n), and O(n) sorts. Learn when to use Quick, Merge, Tim, or Radix sort!',
+      path: '/sorting',
+      icon: '🔢',
+      color: 'from-violet-500 to-violet-600',
+      borderColor: 'border-violet-500',
+      time: '35 min'
     }
   ]
 
@@ -133,41 +213,124 @@ function Home() {
       {/* Quick Access */}
       <div className="mb-12">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Or Jump to Any Topic</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          <Link
-            to="/complexity"
-            className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 border-2 border-purple-200"
-          >
-            <div className="text-4xl mb-3">📊</div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">Complexity Guide</h3>
-            <p className="text-gray-600">Big O notation & analysis</p>
-          </Link>
 
+        {/* Basic Data Structures */}
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">📚 Basic Data Structures</h3>
+        <div className="grid md:grid-cols-4 gap-4 mb-8">
           <Link
             to="/array"
-            className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 border-2 border-green-200"
+            className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-green-200"
           >
-            <div className="text-4xl mb-3">📦</div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">Array</h3>
-            <p className="text-gray-600">Contiguous memory structure</p>
+            <div className="text-3xl mb-2">📦</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Array</h3>
+            <p className="text-sm text-gray-600">O(1) access</p>
           </Link>
 
           <Link
             to="/linkedlist"
-            className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 border-2 border-yellow-200"
+            className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-yellow-200"
           >
-            <div className="text-4xl mb-3">🔗</div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">Linked List</h3>
-            <p className="text-gray-600">Pointer-based structure</p>
+            <div className="text-3xl mb-2">🔗</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Linked List</h3>
+            <p className="text-sm text-gray-600">Dynamic structure</p>
           </Link>
 
           <Link
             to="/set"
-            className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 border-2 border-orange-200"
+            className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-orange-200"
           >
-            <div className="text-4xl mb-3">⚡</div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">Hash Set</h3>
-            <p className="text-gray-600">O(1) lookup performance</p>
+            <div className="text-3xl mb-2">⚡</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Hash Set</h3>
+            <p className="text-sm text-gray-600">Unique elements</p>
+          </Link>
+
+          <Link
+            to="/stack"
+            className="bg-gradient-to-br from-red-50 to-red-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-red-200"
+          >
+            <div className="text-3xl mb-2">📚</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Stack</h3>
+            <p className="text-sm text-gray-600">LIFO structure</p>
+          </Link>
+
+          <Link
+            to="/queue"
+            className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-pink-200"
+          >
+            <div className="text-3xl mb-2">🚶</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Queue</h3>
+            <p className="text-sm text-gray-600">FIFO structure</p>
+          </Link>
+
+          <Link
+            to="/hashmap"
+            className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-indigo-200"
+          >
+            <div className="text-3xl mb-2">🗺️</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Hash Map</h3>
+            <p className="text-sm text-gray-600">Key-value pairs</p>
+          </Link>
+        </div>
+
+        {/* Advanced Data Structures */}
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">🚀 Advanced Data Structures</h3>
+        <div className="grid md:grid-cols-4 gap-4 mb-8">
+          <Link
+            to="/tree"
+            className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-teal-200"
+          >
+            <div className="text-3xl mb-2">🌲</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Binary Tree</h3>
+            <p className="text-sm text-gray-600">Hierarchical data</p>
+          </Link>
+
+          <Link
+            to="/heap"
+            className="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-cyan-200"
+          >
+            <div className="text-3xl mb-2">⛰️</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Heap</h3>
+            <p className="text-sm text-gray-600">Priority queue</p>
+          </Link>
+
+          <Link
+            to="/graph"
+            className="bg-gradient-to-br from-lime-50 to-lime-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-lime-200"
+          >
+            <div className="text-3xl mb-2">🕸️</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Graph</h3>
+            <p className="text-sm text-gray-600">Networks & paths</p>
+          </Link>
+
+          <Link
+            to="/trie"
+            className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-emerald-200"
+          >
+            <div className="text-3xl mb-2">🌿</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Trie</h3>
+            <p className="text-sm text-gray-600">Prefix tree</p>
+          </Link>
+        </div>
+
+        {/* Algorithms */}
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">⚡ Algorithms</h3>
+        <div className="grid md:grid-cols-4 gap-4">
+          <Link
+            to="/sorting"
+            className="bg-gradient-to-br from-violet-50 to-violet-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-violet-200"
+          >
+            <div className="text-3xl mb-2">🔢</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Sorting</h3>
+            <p className="text-sm text-gray-600">O(n²) to O(n)</p>
+          </Link>
+
+          <Link
+            to="/complexity"
+            className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-purple-200"
+          >
+            <div className="text-3xl mb-2">📊</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Complexity</h3>
+            <p className="text-sm text-gray-600">Big O analysis</p>
           </Link>
         </div>
       </div>
@@ -216,15 +379,15 @@ function Home() {
       {/* Stats / Impact */}
       <div className="grid md:grid-cols-3 gap-6 mb-12">
         <div className="bg-white rounded-lg shadow-md p-6 text-center">
-          <div className="text-4xl font-bold text-blue-600 mb-2">3</div>
+          <div className="text-4xl font-bold text-blue-600 mb-2">10+</div>
           <div className="text-gray-600">Data Structures</div>
-          <div className="text-sm text-gray-500 mt-1">With more coming soon</div>
+          <div className="text-sm text-gray-500 mt-1">From arrays to graphs</div>
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6 text-center">
-          <div className="text-4xl font-bold text-green-600 mb-2">15+</div>
+          <div className="text-4xl font-bold text-green-600 mb-2">50+</div>
           <div className="text-gray-600">Operations Visualized</div>
-          <div className="text-sm text-gray-500 mt-1">Insert, delete, search & more</div>
+          <div className="text-sm text-gray-500 mt-1">BFS, DFS, sorting & more</div>
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6 text-center">
