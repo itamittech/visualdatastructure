@@ -6,6 +6,11 @@ import SetVisualizerEnhanced from './pages/SetVisualizerEnhanced'
 import StackVisualizerEnhanced from './pages/StackVisualizerEnhanced'
 import QueueVisualizerEnhanced from './pages/QueueVisualizerEnhanced'
 import HashMapVisualizerEnhanced from './pages/HashMapVisualizerEnhanced'
+import BinaryTreeVisualizerEnhanced from './pages/BinaryTreeVisualizerEnhanced'
+import HeapVisualizerEnhanced from './pages/HeapVisualizerEnhanced'
+import GraphVisualizerEnhanced from './pages/GraphVisualizerEnhanced'
+import TrieVisualizerEnhanced from './pages/TrieVisualizerEnhanced'
+import SortingVisualizerEnhanced from './pages/SortingVisualizerEnhanced'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -45,6 +50,21 @@ function App() {
                 <Link to="/hashmap" className="hover:bg-blue-700 px-3 py-2 rounded">
                   HashMap
                 </Link>
+                <Link to="/tree" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Tree
+                </Link>
+                <Link to="/heap" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Heap
+                </Link>
+                <Link to="/graph" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Graph
+                </Link>
+                <Link to="/trie" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Trie
+                </Link>
+                <Link to="/sorting" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Sorting
+                </Link>
               </div>
             </div>
           </div>
@@ -61,6 +81,11 @@ function App() {
             <Route path="/stack" element={<StackVisualizerEnhanced />} />
             <Route path="/queue" element={<QueueVisualizerEnhanced />} />
             <Route path="/hashmap" element={<HashMapVisualizerEnhanced />} />
+            <Route path="/tree" element={<BinaryTreeVisualizerEnhanced />} />
+            <Route path="/heap" element={<HeapVisualizerEnhanced />} />
+            <Route path="/graph" element={<GraphVisualizerEnhanced />} />
+            <Route path="/trie" element={<TrieVisualizerEnhanced />} />
+            <Route path="/sorting" element={<SortingVisualizerEnhanced />} />
           </Routes>
         </main>
       </div>
