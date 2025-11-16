@@ -86,6 +86,9 @@ function Introduction() {
                 <div className="bg-rose-50 px-3 py-2 rounded">
                   <Link to="/searching" className="text-rose-700 hover:text-rose-900 font-semibold">Searching Algorithms</Link>
                 </div>
+                <div className="bg-sky-50 px-3 py-2 rounded">
+                  <Link to="/lru-cache" className="text-sky-700 hover:text-sky-900 font-semibold">LRU Cache (Advanced)</Link>
+                </div>
               </div>
             </div>
           </div>

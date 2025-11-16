@@ -142,6 +142,16 @@ function Home() {
       color: 'from-rose-500 to-rose-600',
       borderColor: 'border-rose-500',
       time: '30 min'
+    },
+    {
+      step: 15,
+      title: 'LRU Cache',
+      description: 'Combine HashMap + Doubly Linked List for O(1) get/put. Top interview question at FAANG companies!',
+      path: '/lru-cache',
+      icon: '💾',
+      color: 'from-sky-500 to-sky-600',
+      borderColor: 'border-sky-500',
+      time: '30 min'
     }
   ]
 
@@ -319,6 +329,15 @@ function Home() {
             <div className="text-3xl mb-2">🌿</div>
             <h3 className="text-lg font-bold text-gray-800 mb-1">Trie</h3>
             <p className="text-sm text-gray-600">Prefix tree</p>
+          </Link>
+
+          <Link
+            to="/lru-cache"
+            className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-sky-200"
+          >
+            <div className="text-3xl mb-2">💾</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">LRU Cache</h3>
+            <p className="text-sm text-gray-600">O(1) caching</p>
           </Link>
         </div>
 
