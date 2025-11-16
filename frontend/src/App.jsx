@@ -16,6 +16,7 @@ import LRUCacheVisualizerEnhanced from './pages/LRUCacheVisualizerEnhanced'
 import DynamicProgrammingVisualizer from './pages/DynamicProgrammingVisualizer'
 import BacktrackingVisualizer from './pages/BacktrackingVisualizer'
 import TwoPointersVisualizer from './pages/TwoPointersVisualizer'
+import UnionFindVisualizer from './pages/UnionFindVisualizer'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -66,6 +67,7 @@ function App() {
             <Route path="/dynamic-programming" element={<DynamicProgrammingVisualizer />} />
             <Route path="/backtracking" element={<BacktrackingVisualizer />} />
             <Route path="/two-pointers" element={<TwoPointersVisualizer />} />
+            <Route path="/union-find" element={<UnionFindVisualizer />} />
           </Routes>
         </main>
       </div>

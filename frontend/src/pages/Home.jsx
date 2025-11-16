@@ -182,6 +182,16 @@ function Home() {
       color: 'from-cyan-500 to-blue-600',
       borderColor: 'border-cyan-500',
       time: '35 min'
+    },
+    {
+      step: 19,
+      title: 'Union-Find (Disjoint Set)',
+      description: 'Near O(1) connectivity queries! Essential for graph connectivity, cycle detection, and dynamic sets. Key for 5-8% of interviews!',
+      path: '/union-find',
+      icon: '🔗',
+      color: 'from-emerald-500 to-teal-600',
+      borderColor: 'border-emerald-500',
+      time: '30 min'
     }
   ]
 
