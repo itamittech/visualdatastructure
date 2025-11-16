@@ -98,6 +98,15 @@ function Introduction() {
                 <div className="bg-cyan-50 px-3 py-2 rounded">
                   <Link to="/two-pointers" className="text-cyan-700 hover:text-cyan-900 font-semibold">Two Pointers & Sliding Window</Link>
                 </div>
+                <div className="bg-emerald-50 px-3 py-2 rounded">
+                  <Link to="/union-find" className="text-emerald-700 hover:text-emerald-900 font-semibold">Union-Find (Disjoint Set)</Link>
+                </div>
+                <div className="bg-green-50 px-3 py-2 rounded">
+                  <Link to="/greedy" className="text-green-700 hover:text-green-900 font-semibold">Greedy Algorithms</Link>
+                </div>
+                <div className="bg-indigo-50 px-3 py-2 rounded">
+                  <Link to="/bit-manipulation" className="text-indigo-700 hover:text-indigo-900 font-semibold">Bit Manipulation</Link>
+                </div>
               </div>
             </div>
           </div>

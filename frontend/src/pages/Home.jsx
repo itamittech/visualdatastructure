@@ -182,6 +182,36 @@ function Home() {
       color: 'from-cyan-500 to-blue-600',
       borderColor: 'border-cyan-500',
       time: '35 min'
+    },
+    {
+      step: 19,
+      title: 'Union-Find (Disjoint Set)',
+      description: 'Near O(1) connectivity queries! Essential for graph connectivity, cycle detection, and dynamic sets. Key for 5-8% of interviews!',
+      path: '/union-find',
+      icon: '🔗',
+      color: 'from-emerald-500 to-teal-600',
+      borderColor: 'border-emerald-500',
+      time: '30 min'
+    },
+    {
+      step: 20,
+      title: 'Greedy Algorithms',
+      description: 'Make locally optimal choices for global optimum! Master Jump Game, Gas Station, Intervals. Essential for 4-5% of interviews!',
+      path: '/greedy',
+      icon: '🎯',
+      color: 'from-green-500 to-lime-600',
+      borderColor: 'border-green-500',
+      time: '35 min'
+    },
+    {
+      step: 21,
+      title: 'Bit Manipulation',
+      description: 'Master bitwise operations and XOR tricks! Learn Single Number, Power of 2, and bit counting. Key for 2-3% of interviews!',
+      path: '/bit-manipulation',
+      icon: '⚡',
+      color: 'from-indigo-500 to-purple-600',
+      borderColor: 'border-indigo-500',
+      time: '30 min'
     }
   ]
 
