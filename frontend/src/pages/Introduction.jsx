@@ -47,7 +47,7 @@ function Introduction() {
             <div>
               <h3 className="font-bold text-lg text-gray-800 mb-2">Comprehensive Data Structures</h3>
               <p className="text-gray-600 mb-3">
-                Master 10+ essential data structures with interactive visualizations and architect-level insights:
+                Master 15+ essential data structures with interactive visualizations and architect-level insights:
               </p>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div className="bg-blue-50 px-3 py-2 rounded">
@@ -85,6 +85,18 @@ function Introduction() {
                 </div>
                 <div className="bg-rose-50 px-3 py-2 rounded">
                   <Link to="/searching" className="text-rose-700 hover:text-rose-900 font-semibold">Searching Algorithms</Link>
+                </div>
+                <div className="bg-sky-50 px-3 py-2 rounded">
+                  <Link to="/lru-cache" className="text-sky-700 hover:text-sky-900 font-semibold">LRU Cache (Advanced)</Link>
+                </div>
+                <div className="bg-amber-50 px-3 py-2 rounded">
+                  <Link to="/dynamic-programming" className="text-amber-700 hover:text-amber-900 font-semibold">Dynamic Programming (CRITICAL)</Link>
+                </div>
+                <div className="bg-pink-50 px-3 py-2 rounded">
+                  <Link to="/backtracking" className="text-pink-700 hover:text-pink-900 font-semibold">Backtracking (Essential)</Link>
+                </div>
+                <div className="bg-cyan-50 px-3 py-2 rounded">
+                  <Link to="/two-pointers" className="text-cyan-700 hover:text-cyan-900 font-semibold">Two Pointers & Sliding Window</Link>
                 </div>
               </div>
             </div>

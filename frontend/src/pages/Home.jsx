@@ -142,6 +142,46 @@ function Home() {
       color: 'from-rose-500 to-rose-600',
       borderColor: 'border-rose-500',
       time: '30 min'
+    },
+    {
+      step: 15,
+      title: 'LRU Cache',
+      description: 'Combine HashMap + Doubly Linked List for O(1) get/put. Top interview question at FAANG companies!',
+      path: '/lru-cache',
+      icon: '💾',
+      color: 'from-sky-500 to-sky-600',
+      borderColor: 'border-sky-500',
+      time: '30 min'
+    },
+    {
+      step: 16,
+      title: 'Dynamic Programming',
+      description: 'Master the #1 interview topic! Turn O(2ⁿ) into O(n). Covers 30% of FAANG coding questions!',
+      path: '/dynamic-programming',
+      icon: '🎯',
+      color: 'from-amber-500 to-amber-600',
+      borderColor: 'border-amber-500',
+      time: '45 min'
+    },
+    {
+      step: 17,
+      title: 'Backtracking',
+      description: 'Explore all solutions intelligently! Master Permutations, N-Queens, and Sudoku. Critical for 15-20% of interviews!',
+      path: '/backtracking',
+      icon: '🔄',
+      color: 'from-purple-500 to-pink-600',
+      borderColor: 'border-purple-500',
+      time: '40 min'
+    },
+    {
+      step: 18,
+      title: 'Two Pointers & Sliding Window',
+      description: 'Optimize O(n²) to O(n)! Master array/string problems with pointers and windows. Essential for 10-15% of interviews!',
+      path: '/two-pointers',
+      icon: '👈👉',
+      color: 'from-cyan-500 to-blue-600',
+      borderColor: 'border-cyan-500',
+      time: '35 min'
     }
   ]
 
@@ -320,11 +360,20 @@ function Home() {
             <h3 className="text-lg font-bold text-gray-800 mb-1">Trie</h3>
             <p className="text-sm text-gray-600">Prefix tree</p>
           </Link>
+
+          <Link
+            to="/lru-cache"
+            className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-sky-200"
+          >
+            <div className="text-3xl mb-2">💾</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">LRU Cache</h3>
+            <p className="text-sm text-gray-600">O(1) caching</p>
+          </Link>
         </div>
 
         {/* Algorithms */}
         <h3 className="text-xl font-semibold text-gray-700 mb-4">⚡ Algorithms</h3>
-        <div className="grid md:grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-6 gap-4">
           <Link
             to="/sorting"
             className="bg-gradient-to-br from-violet-50 to-violet-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-violet-200"
@@ -341,6 +390,33 @@ function Home() {
             <div className="text-3xl mb-2">🔍</div>
             <h3 className="text-lg font-bold text-gray-800 mb-1">Searching</h3>
             <p className="text-sm text-gray-600">O(n) to O(log n)</p>
+          </Link>
+
+          <Link
+            to="/dynamic-programming"
+            className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-amber-200"
+          >
+            <div className="text-3xl mb-2">🎯</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Dynamic Programming</h3>
+            <p className="text-sm text-gray-600">O(2ⁿ) → O(n)</p>
+          </Link>
+
+          <Link
+            to="/backtracking"
+            className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-pink-200"
+          >
+            <div className="text-3xl mb-2">🔄</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Backtracking</h3>
+            <p className="text-sm text-gray-600">Explore + Prune</p>
+          </Link>
+
+          <Link
+            to="/two-pointers"
+            className="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-cyan-200"
+          >
+            <div className="text-3xl mb-2">👈👉</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Two Pointers</h3>
+            <p className="text-sm text-gray-600">O(n²) → O(n)</p>
           </Link>
 
           <Link

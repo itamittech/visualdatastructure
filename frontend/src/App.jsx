@@ -12,6 +12,10 @@ import GraphVisualizerEnhanced from './pages/GraphVisualizerEnhanced'
 import TrieVisualizerEnhanced from './pages/TrieVisualizerEnhanced'
 import SortingVisualizerEnhanced from './pages/SortingVisualizerEnhanced'
 import SearchingVisualizerEnhanced from './pages/SearchingVisualizerEnhanced'
+import LRUCacheVisualizerEnhanced from './pages/LRUCacheVisualizerEnhanced'
+import DynamicProgrammingVisualizer from './pages/DynamicProgrammingVisualizer'
+import BacktrackingVisualizer from './pages/BacktrackingVisualizer'
+import TwoPointersVisualizer from './pages/TwoPointersVisualizer'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -23,51 +27,18 @@ function App() {
         <nav className="bg-blue-600 text-white shadow-lg">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
-              <Link to="/" className="text-2xl font-bold">
+              <Link to="/" className="text-2xl font-bold hover:text-blue-200 transition-colors">
                 Visual Data Structure
               </Link>
-              <div className="flex space-x-4">
-                <Link to="/introduction" className="hover:bg-blue-700 px-3 py-2 rounded">
+              <div className="flex items-center space-x-6">
+                <Link to="/" className="hover:bg-blue-700 px-4 py-2 rounded font-semibold transition-colors">
+                  🏠 Browse Topics
+                </Link>
+                <Link to="/introduction" className="hover:bg-blue-700 px-4 py-2 rounded transition-colors">
                   Introduction
                 </Link>
-                <Link to="/complexity" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Complexity
-                </Link>
-                <Link to="/array" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Array
-                </Link>
-                <Link to="/linkedlist" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Linked List
-                </Link>
-                <Link to="/set" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Set
-                </Link>
-                <Link to="/stack" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Stack
-                </Link>
-                <Link to="/queue" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Queue
-                </Link>
-                <Link to="/hashmap" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  HashMap
-                </Link>
-                <Link to="/tree" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Tree
-                </Link>
-                <Link to="/heap" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Heap
-                </Link>
-                <Link to="/graph" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Graph
-                </Link>
-                <Link to="/trie" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Trie
-                </Link>
-                <Link to="/sorting" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Sorting
-                </Link>
-                <Link to="/searching" className="hover:bg-blue-700 px-3 py-2 rounded">
-                  Searching
+                <Link to="/complexity" className="hover:bg-blue-700 px-4 py-2 rounded transition-colors">
+                  Complexity Guide
                 </Link>
               </div>
             </div>
@@ -91,6 +62,10 @@ function App() {
             <Route path="/trie" element={<TrieVisualizerEnhanced />} />
             <Route path="/sorting" element={<SortingVisualizerEnhanced />} />
             <Route path="/searching" element={<SearchingVisualizerEnhanced />} />
+            <Route path="/lru-cache" element={<LRUCacheVisualizerEnhanced />} />
+            <Route path="/dynamic-programming" element={<DynamicProgrammingVisualizer />} />
+            <Route path="/backtracking" element={<BacktrackingVisualizer />} />
+            <Route path="/two-pointers" element={<TwoPointersVisualizer />} />
           </Routes>
         </main>
       </div>
