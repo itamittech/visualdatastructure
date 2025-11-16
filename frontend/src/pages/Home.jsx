@@ -162,6 +162,16 @@ function Home() {
       color: 'from-amber-500 to-amber-600',
       borderColor: 'border-amber-500',
       time: '45 min'
+    },
+    {
+      step: 17,
+      title: 'Backtracking',
+      description: 'Explore all solutions intelligently! Master Permutations, N-Queens, and Sudoku. Critical for 15-20% of interviews!',
+      path: '/backtracking',
+      icon: '🔄',
+      color: 'from-purple-500 to-pink-600',
+      borderColor: 'border-purple-500',
+      time: '40 min'
     }
   ]
 
@@ -353,7 +363,7 @@ function Home() {
 
         {/* Algorithms */}
         <h3 className="text-xl font-semibold text-gray-700 mb-4">⚡ Algorithms</h3>
-        <div className="grid md:grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-5 gap-4">
           <Link
             to="/sorting"
             className="bg-gradient-to-br from-violet-50 to-violet-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-violet-200"
@@ -379,6 +389,15 @@ function Home() {
             <div className="text-3xl mb-2">🎯</div>
             <h3 className="text-lg font-bold text-gray-800 mb-1">Dynamic Programming</h3>
             <p className="text-sm text-gray-600">O(2ⁿ) → O(n)</p>
+          </Link>
+
+          <Link
+            to="/backtracking"
+            className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-pink-200"
+          >
+            <div className="text-3xl mb-2">🔄</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Backtracking</h3>
+            <p className="text-sm text-gray-600">Explore + Prune</p>
           </Link>
 
           <Link
