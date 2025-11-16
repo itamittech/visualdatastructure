@@ -83,6 +83,9 @@ function Introduction() {
                 <div className="bg-purple-50 px-3 py-2 rounded">
                   <Link to="/sorting" className="text-purple-700 hover:text-purple-900 font-semibold">Sorting Algorithms</Link>
                 </div>
+                <div className="bg-rose-50 px-3 py-2 rounded">
+                  <Link to="/searching" className="text-rose-700 hover:text-rose-900 font-semibold">Searching Algorithms</Link>
+                </div>
               </div>
             </div>
           </div>

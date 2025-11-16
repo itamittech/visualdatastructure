@@ -132,6 +132,16 @@ function Home() {
       color: 'from-violet-500 to-violet-600',
       borderColor: 'border-violet-500',
       time: '35 min'
+    },
+    {
+      step: 14,
+      title: 'Searching Algorithms',
+      description: 'Explore Linear, Binary, Jump, and Interpolation search. Master O(n), O(log n), and O(√n) techniques!',
+      path: '/searching',
+      icon: '🔍',
+      color: 'from-rose-500 to-rose-600',
+      borderColor: 'border-rose-500',
+      time: '30 min'
     }
   ]
 
@@ -322,6 +332,15 @@ function Home() {
             <div className="text-3xl mb-2">🔢</div>
             <h3 className="text-lg font-bold text-gray-800 mb-1">Sorting</h3>
             <p className="text-sm text-gray-600">O(n²) to O(n)</p>
+          </Link>
+
+          <Link
+            to="/searching"
+            className="bg-gradient-to-br from-rose-50 to-rose-100 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 border-2 border-rose-200"
+          >
+            <div className="text-3xl mb-2">🔍</div>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">Searching</h3>
+            <p className="text-sm text-gray-600">O(n) to O(log n)</p>
           </Link>
 
           <Link

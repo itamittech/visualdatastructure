@@ -11,6 +11,7 @@ import HeapVisualizerEnhanced from './pages/HeapVisualizerEnhanced'
 import GraphVisualizerEnhanced from './pages/GraphVisualizerEnhanced'
 import TrieVisualizerEnhanced from './pages/TrieVisualizerEnhanced'
 import SortingVisualizerEnhanced from './pages/SortingVisualizerEnhanced'
+import SearchingVisualizerEnhanced from './pages/SearchingVisualizerEnhanced'
 import Home from './pages/Home'
 import Introduction from './pages/Introduction'
 import ComplexityGuide from './pages/ComplexityGuide'
@@ -65,6 +66,9 @@ function App() {
                 <Link to="/sorting" className="hover:bg-blue-700 px-3 py-2 rounded">
                   Sorting
                 </Link>
+                <Link to="/searching" className="hover:bg-blue-700 px-3 py-2 rounded">
+                  Searching
+                </Link>
               </div>
             </div>
           </div>
@@ -86,6 +90,7 @@ function App() {
             <Route path="/graph" element={<GraphVisualizerEnhanced />} />
             <Route path="/trie" element={<TrieVisualizerEnhanced />} />
             <Route path="/sorting" element={<SortingVisualizerEnhanced />} />
+            <Route path="/searching" element={<SearchingVisualizerEnhanced />} />
           </Routes>
         </main>
       </div>
