@@ -202,6 +202,16 @@ function Home() {
       color: 'from-green-500 to-lime-600',
       borderColor: 'border-green-500',
       time: '35 min'
+    },
+    {
+      step: 21,
+      title: 'Bit Manipulation',
+      description: 'Master bitwise operations and XOR tricks! Learn Single Number, Power of 2, and bit counting. Key for 2-3% of interviews!',
+      path: '/bit-manipulation',
+      icon: '⚡',
+      color: 'from-indigo-500 to-purple-600',
+      borderColor: 'border-indigo-500',
+      time: '30 min'
     }
   ]
 
