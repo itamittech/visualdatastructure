@@ -41,48 +41,127 @@ function Introduction() {
       <div className="bg-white rounded-lg shadow-md p-8 mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">What You'll Learn</h2>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
           <div className="flex items-start space-x-4">
             <div className="text-4xl">📊</div>
             <div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">Data Structures</h3>
-              <p className="text-gray-600">
-                Master Arrays, Linked Lists, and Sets. See how they store data,
-                how operations work, and when to use each one.
+              <h3 className="font-bold text-lg text-gray-800 mb-2">Comprehensive Data Structures</h3>
+              <p className="text-gray-600 mb-3">
+                Master 10+ essential data structures with interactive visualizations and architect-level insights:
               </p>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div className="bg-blue-50 px-3 py-2 rounded">
+                  <Link to="/array" className="text-blue-700 hover:text-blue-900 font-semibold">Arrays</Link>
+                </div>
+                <div className="bg-blue-50 px-3 py-2 rounded">
+                  <Link to="/linkedlist" className="text-blue-700 hover:text-blue-900 font-semibold">Linked Lists</Link>
+                </div>
+                <div className="bg-blue-50 px-3 py-2 rounded">
+                  <Link to="/set" className="text-blue-700 hover:text-blue-900 font-semibold">Sets (HashSet)</Link>
+                </div>
+                <div className="bg-blue-50 px-3 py-2 rounded">
+                  <Link to="/stack" className="text-blue-700 hover:text-blue-900 font-semibold">Stacks</Link>
+                </div>
+                <div className="bg-blue-50 px-3 py-2 rounded">
+                  <Link to="/queue" className="text-blue-700 hover:text-blue-900 font-semibold">Queues</Link>
+                </div>
+                <div className="bg-blue-50 px-3 py-2 rounded">
+                  <Link to="/hashmap" className="text-blue-700 hover:text-blue-900 font-semibold">HashMaps</Link>
+                </div>
+                <div className="bg-green-50 px-3 py-2 rounded">
+                  <Link to="/tree" className="text-green-700 hover:text-green-900 font-semibold">Binary Trees</Link>
+                </div>
+                <div className="bg-green-50 px-3 py-2 rounded">
+                  <Link to="/heap" className="text-green-700 hover:text-green-900 font-semibold">Heaps (Priority Queue)</Link>
+                </div>
+                <div className="bg-green-50 px-3 py-2 rounded">
+                  <Link to="/graph" className="text-green-700 hover:text-green-900 font-semibold">Graphs</Link>
+                </div>
+                <div className="bg-green-50 px-3 py-2 rounded">
+                  <Link to="/trie" className="text-green-700 hover:text-green-900 font-semibold">Tries (Prefix Tree)</Link>
+                </div>
+                <div className="bg-purple-50 px-3 py-2 rounded">
+                  <Link to="/sorting" className="text-purple-700 hover:text-purple-900 font-semibold">Sorting Algorithms</Link>
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="flex items-start space-x-4">
             <div className="text-4xl">⚡</div>
             <div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">Time Complexity</h3>
-              <p className="text-gray-600">
-                Understand Big O notation through visual proofs. See why some
-                operations are O(1) and others are O(n).
+              <h3 className="font-bold text-lg text-gray-800 mb-2">Time & Space Complexity</h3>
+              <p className="text-gray-600 mb-3">
+                Understand Big O notation through visual proofs and real-world examples:
               </p>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>• Why ArrayList add is O(1) amortized</li>
+                <li>• Why HashMap lookup is O(1) average</li>
+                <li>• Why Binary Search is O(log n)</li>
+                <li>• Why Graph BFS/DFS is O(V + E)</li>
+                <li>• Memory layout analysis per structure</li>
+                <li>• Cache locality and performance impact</li>
+              </ul>
             </div>
           </div>
 
           <div className="flex items-start space-x-4">
             <div className="text-4xl">💻</div>
             <div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">Implementation</h3>
-              <p className="text-gray-600">
-                Learn both scratch implementations and Java library usage.
-                Understand the code behind the concepts.
+              <h3 className="font-bold text-lg text-gray-800 mb-2">Scratch & Library Implementations</h3>
+              <p className="text-gray-600 mb-3">
+                Learn both approaches with detailed explanations:
               </p>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>• Build data structures from scratch</li>
+                <li>• Use Java Collections Framework</li>
+                <li>• Understand internal mechanisms</li>
+                <li>• Compare implementation trade-offs</li>
+                <li>• Production-grade code patterns</li>
+              </ul>
             </div>
           </div>
 
           <div className="flex items-start space-x-4">
             <div className="text-4xl">🎯</div>
             <div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">When to Use What</h3>
-              <p className="text-gray-600">
-                Make informed decisions. Understand trade-offs and choose the
-                right data structure for your problem.
+              <h3 className="font-bold text-lg text-gray-800 mb-2">Real-World Applications</h3>
+              <p className="text-gray-600 mb-3">
+                See how tech giants use these structures:
               </p>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>• Google Search autocomplete (Tries)</li>
+                <li>• Facebook social graph (Graphs)</li>
+                <li>• Dijkstra in Google Maps (Heaps)</li>
+                <li>• LRU Cache implementation (Trees)</li>
+                <li>• Production patterns and optimizations</li>
+                <li>• Interview problem solutions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border-l-4 border-blue-500">
+          <h3 className="font-bold text-lg text-gray-800 mb-3">🎓 Four-Step Learning Path</h3>
+          <p className="text-gray-600 mb-3">
+            Every data structure follows our proven architect-level pattern:
+          </p>
+          <div className="grid md:grid-cols-4 gap-3 text-sm">
+            <div className="bg-white p-3 rounded shadow-sm">
+              <div className="font-bold text-blue-600 mb-1">1. Theory</div>
+              <div className="text-gray-600">Concepts, characteristics, when to use</div>
+            </div>
+            <div className="bg-white p-3 rounded shadow-sm">
+              <div className="font-bold text-green-600 mb-1">2. Practice</div>
+              <div className="text-gray-600">Interactive visualization and operations</div>
+            </div>
+            <div className="bg-white p-3 rounded shadow-sm">
+              <div className="font-bold text-purple-600 mb-1">3. Code</div>
+              <div className="text-gray-600">Scratch + library implementations</div>
+            </div>
+            <div className="bg-white p-3 rounded shadow-sm">
+              <div className="font-bold text-slate-600 mb-1">4. Advanced</div>
+              <div className="text-gray-600">Production patterns, memory analysis, interviews</div>
             </div>
           </div>
         </div>
