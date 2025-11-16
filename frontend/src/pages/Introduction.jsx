@@ -95,6 +95,9 @@ function Introduction() {
                 <div className="bg-pink-50 px-3 py-2 rounded">
                   <Link to="/backtracking" className="text-pink-700 hover:text-pink-900 font-semibold">Backtracking (Essential)</Link>
                 </div>
+                <div className="bg-cyan-50 px-3 py-2 rounded">
+                  <Link to="/two-pointers" className="text-cyan-700 hover:text-cyan-900 font-semibold">Two Pointers & Sliding Window</Link>
+                </div>
               </div>
             </div>
           </div>
